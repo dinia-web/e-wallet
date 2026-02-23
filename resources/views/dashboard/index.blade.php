@@ -26,18 +26,18 @@
     <div class="cards">
 
         <div class="card">
-            <h3>Dispen Hari Ini</h3>
+            <h3>Data Dispen</h3>
             <div class="info">
-                <p>{{ $jumlah_terbaru }}</p>
+                <p>{{ $jumlah_dispen }}</p>
                 <i class="fas fa-envelope"></i>
             </div>
-            <a href="{{ url('/dispen') }}">Selengkapnya</a>
+            <a href="{{ url('/dispen?all=true') }}">Selengkapnya</a>
         </div>
 
         <div class="card yellow">
-            <h3>Data Terbaru</h3>
+            <h3>Dispen Hari Ini</h3>
             <div class="info">
-                <p>{{ $jumlah_dispen }}</p>
+                <p>{{ $jumlah_terbaru }}</p>
                 <i class="fas fa-envelope"></i>
             </div>
             <a href="{{ url('/dispen') }}">Selengkapnya</a>

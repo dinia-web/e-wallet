@@ -19,13 +19,18 @@ public function index(Request $request)
     $limit = $request->limit ?? 5;
     $search = $request->search ?? '';
     $user = auth()->user();
-
-    $query = Dispen::with([
+    $showAll = $request->all == 'true';
+   $query = Dispen::with([
     'kelasRel',
     'jamKeluar',
     'jamKembali',
     'guru'
-])->whereDate('created_at', now());
+]);
+
+// Jika bukan selengkapnya → tetap filter hari ini
+if (!$showAll) {
+    $query->whereDate('created_at', now());
+}
 
 
     // 🔥 Kalau yang login guru → hanya tampil data miliknya
@@ -41,8 +46,11 @@ public function index(Request $request)
         });
     });
 
-    $dispen = $query->orderByDesc('id_dispen')
-                    ->paginate($limit);
+    if ($showAll) {
+    $dispen = $query->orderByDesc('id_dispen')->get();
+} else {
+    $dispen = $query->orderByDesc('id_dispen')->paginate($limit);
+}
 
     return view('dispen.index', compact('dispen','limit','search'));
 }

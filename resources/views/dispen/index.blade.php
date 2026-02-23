@@ -58,7 +58,11 @@
                 <tbody>
                     @forelse($dispen as $i => $d)
                     <tr>
-                        <td>{{ $dispen->firstItem() + $i }}</td>
+                        <td>
+                            {{ method_exists($dispen, 'firstItem') 
+                                ? $dispen->firstItem() + $i 
+                                : $loop->iteration }}
+                        </td>
                         <td>{{ $d->nis }}</td>
                         <td>{{ $d->nama }}</td>
 
@@ -100,6 +104,7 @@
         </div>
 
         <!-- PAGINATION -->
+       @if(method_exists($dispen, 'links'))
         <div class="pagination">
             <span>
                 Showing {{ $dispen->firstItem() ?? 0 }}
@@ -111,6 +116,7 @@
                 {{ $dispen->links() }}
             </div>
         </div>
+        @endif
 
     </div>
 </div>

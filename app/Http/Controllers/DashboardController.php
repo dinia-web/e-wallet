@@ -19,10 +19,7 @@ class DashboardController extends Controller
         // ===============================
         if ($user->role == 'admin') {
 
-            $jumlah_dispen = Dispen::whereDate('created_at', $today)
-                                   ->where('status', 'dalam proses')
-                                   ->count();
-
+           $jumlah_dispen = Dispen::count();
             $jumlah_terbaru = Dispen::whereDate('created_at', $today)
                                      ->count();
         }
