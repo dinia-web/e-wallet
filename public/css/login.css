@@ -1,0 +1,291 @@
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            height: 100vh;
+            background-color: #FAF9FF;
+        }
+
+        /* Form Login */
+        .login-container {
+            width: 35%;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            padding: 20px;
+            border-right: 2px solid #ddd;
+        }
+        .img img{
+            width: 130px;
+            height: auto;
+        }
+        .login-container h4 {
+            text-align: left;
+            margin: 5px 40px 20px;
+            font-size: 18px;
+        }
+        .login-container hr {
+            border: none;
+            border-top: 2px solid #9b9b9b;
+            margin: 20px;
+            width: 88%;
+        }
+        .login-container h5 {
+            font-size: 14px;
+            color: #000;
+            margin-bottom: 5px;
+            text-align: left;
+            width: 100%;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #B1B1B1;
+            font-size: 12px;
+            color: #828282;
+            background-color: #fff;
+            margin-bottom: 10px;
+        }
+        
+        .btn {
+            display: block;
+            margin-bottom: 10px;
+            background-color: #4553c9;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            width: 100%;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #3a47a3;
+        }
+
+        /* Kotak Biru E-Dispensasi */
+        .header {
+            background-color: #4553c9;
+            color: white;
+            width: 100%;
+            height: auto;
+            padding: 50px;
+            font-size: 28px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Informasi */
+        .content {
+            margin: 30px;
+            text-align: left;
+        }
+        .content h2 {
+            color: #ef4444;
+            font-size: 17px;
+            font-weight: normal;
+            margin-bottom: 5px;
+            position: relative;
+            text-align: left;
+        }
+        hr {
+            border: none;
+            border-top: 2px solid #ef4444;
+            margin-bottom: 15px;
+            width: 30%;
+        }
+        .content p {
+            color: #374151;
+            font-size: 16px;
+            text-align: left;
+        }
+        .error-msg {
+            color: red;
+            font-size: 14px;
+            text-align: left;
+            margin-bottom: 10px;
+        }
+        .password{
+            position: relative;
+        }
+        .password{
+            width: 100%;
+        }
+        .password i{
+        position: absolute; 
+        right: 10px; 
+        top: 50%; 
+        transform: translateY(-80%); 
+        cursor: pointer;
+        font-size: 16px;
+        color: gray;
+        }
+        /* Responsif */
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+                height: auto;
+            }
+            .login-container {
+                width: 100%;
+                border-right: none;
+                border-bottom: 2px solid #ddd;
+            }
+            .right-section {
+                width: 100%;
+            }
+        }
+        
+        /* ============================= */
+/* MODAL RESET PASSWORD */
+/* ============================= */
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-box {
+    background: #fff;
+    width: 380px;
+    padding: 30px;
+    border-radius: 12px;
+    position: relative;
+    animation: fadeInModal 0.3s ease;
+}
+
+@keyframes fadeInModal {
+    from { opacity: 0; transform: translateY(-15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-title {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    border: none;
+    background: none;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.modal-box input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.alert-error {
+    background: #ffe5e5;
+    color: #c70000;
+    padding: 8px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+.alert-success {
+    background: #e6ffed;
+    color: #008f39;
+    padding: 8px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+/* ===================== */
+/* LUPA PASSWORD STYLE */
+/* ===================== */
+
+.forgot-wrapper {
+    text-align: right;
+    margin-top: 0px;
+    margin-bottom: 15px;
+}
+
+.forgot-btn {
+    background: none;
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #4a55c5;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.forgot-btn i {
+    font-size: 13px;
+}
+
+.forgot-btn::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: #4a55c5;
+    transition: width 0.3s ease;
+}
+
+.forgot-btn:hover {
+    color: #2f3abf;
+    transform: translateY(-1px);
+}
+
+.forgot-btn:hover::after {
+    width: 100%;
+}
+
+/* ===================== */
+/* REMEMBER & FORGOT ROW */
+/* ===================== */
+
+.remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 0 15px;
+}
+
+.remember {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.remember input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    margin: 0;             
+    position: relative;
+    top: 1px;               
+}

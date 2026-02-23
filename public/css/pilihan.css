@@ -1,0 +1,102 @@
+* {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fc;
+            overflow: hidden; /* Mencegah scroll */
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            text-align: center;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 350px;
+        }
+
+        .logo-wrapper img {
+            width: 120px;
+            height: auto;
+        }
+
+        p {
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 20px 0;
+        }
+
+        .akses-login {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .login-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .login-buttons a {
+            display: block;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            color: white;
+            width: 100%;
+        }
+
+        .admin-btn {
+            background-color: #3b5bdb;
+        }
+
+        .guru-btn {
+            background-color: #4DADFB;
+        }
+
+        .admin-btn:hover {
+            background-color: #1c3faa;
+        }
+
+        .guru-btn:hover {
+            background-color: #4ea8de;
+        }
+
+        .siswa-btn {
+            background-color: rgb(166, 211, 248);
+            color: #000;
+        }
+
+        .siswa-btn:hover {
+            background-color: rgb(134, 202, 253);
+        }
+
+        @media (max-width: 400px) {
+            .container {
+                padding: 20px;
+            }
+
+            .login-buttons a {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }

@@ -1,0 +1,1732 @@
+ body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        .navbar {
+            display: flex;
+            align-items: center; 
+            background-color: #FAF9FF;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            justify-content: space-between; 
+        }
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+            padding-left: 35px; 
+        }
+
+        .navbar img {
+            width: 32px !important;
+            height: 32px !important;
+            border-radius: 50% !important;
+            object-fit: cover !important;
+        }
+
+        .navbar span {
+            font-size: 15px;
+            font-weight: 600;
+            padding-left: 10px;
+        }
+        .navbar .menu-icon {
+            font-size: 1.5rem;
+            cursor: pointer;
+            position: absolute; 
+            left: 20px;
+        }
+        
+        .profile-pic {
+            width: 32px !important;
+            height: 32px !important;
+            border-radius: 50% !important;
+            object-fit: cover !important;
+            margin-right:25px !important;
+            cursor: pointer !important;
+        }
+        .sidebar {
+            background-color: #fff;
+            position: fixed;
+            overflow-y: hidden;
+            width: 250px; /* Sesuaikan dengan ukuran sidebar */
+            height: calc(103vh - 66px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            top: 64px;
+            margin-top: -13px;
+            left: -300px; 
+            transition: left 0.3s;
+            display: flex;
+            flex-direction: column; 
+            justify-content: space-between; 
+            z-index: 999;
+        }
+        .sidebar.active {
+            left: 0;
+        }
+       .sidebar nav a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px; /* diperlebar */
+            color: #4b5563;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .sidebar nav .submenu a {
+            padding: 10px 20px 10px 40px !important;
+            font-size: 13px;
+        }
+
+
+.sidebar nav a h2 {
+    padding-left: 12px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.sidebar nav a:hover,
+.sidebar nav a.active {
+    background-color: #eef2ff;
+    color: #4553c9;
+}
+
+        .sidebar-footer {
+    padding: 15px;
+    text-align: center;
+    color: #6b7280;
+    background-color: #f9fafb;
+    font-size: 13px;
+}
+/* ===== MENU MANAJEMEN (SUBMENU) ===== */
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    cursor: pointer;
+    color: #4b5563;
+    transition: all 0.2s ease;
+}
+
+.menu-item h2 {
+    font-size: 14px;
+    font-weight: 500;
+    padding-left: 12px;
+}
+
+.menu-item:hover {
+    background-color: #eef2ff;
+    color: #4553c9;
+}
+
+/* panah */
+.menu-item .arrow {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+    font-size: 12px;
+}
+
+.submenu {
+    max-height: 0;
+    overflow: hidden;
+    flex-direction: column;
+    background-color: #f9fafb;
+    margin: 0 10px 0;
+    transition: max-height 0.3s ease;
+}
+
+
+.submenu a { 
+    display: flex; 
+    align-items: center; 
+    font-size: 13px; 
+    color: #6b7280; 
+    text-decoration: none; 
+    transition: all 0.2s ease; 
+} .submenu.show { max-height: 500px; }
+
+/* icon submenu */
+.submenu a i {
+    font-size: 14px;
+    padding: 0 10px 0 0;
+}
+
+/* hover submenu */
+.submenu a:hover {
+    background-color: #eef2ff;
+    color: #4553c9;
+}
+
+/* active submenu */
+.submenu a.active {
+    background-color: #e0e7ff;
+    color: #4338ca;
+    font-weight: 500;
+}
+.menu-item .arrow {
+    transition: transform 0.3s ease;
+}
+
+.menu-item.active .arrow {
+    transform: rotate(180deg);
+}
+
+
+/* animasi panah saat aktif */
+.menu-item.active .arrow {
+    transform: rotate(180deg);
+}
+
+
+        .main-content {
+            margin-left: 0;
+            transition: margin-left 0.3s;
+            overflow-y: auto;
+            height: calc(100vh - 50px); /* Sesuaikan dengan tinggi header jika ada */
+        }
+        .main-content.shifted {
+            margin-left: 250px;
+        }
+       .header {
+            background: linear-gradient(135deg, #4553c9, #5f6df0);
+            color: #fff;
+            height: 150px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+        .p {
+            padding: 0;
+        }
+
+        .p h1 {
+            font-size: 26px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .p p {
+            font-size: 15px;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+
+        /* TANGGAL */
+        .header .info {
+            background: #ffffff;
+            color: #000;
+            padding: 6px 14px;
+            border-radius: 6px;   /* lebih kecil, tidak terlalu bulat */
+            font-size: 12px;
+            font-weight: 500;
+            height: auto;
+        }
+        .welcome {
+            background-color: #FCFCFC;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: -40px 25px 0 25px;
+            flex-wrap: wrap; 
+            position: relative;
+            z-index: 1;
+        }
+        .welcome h2 {
+            margin: 0;
+            padding: 0 24px 5px;
+            font-size: 1.50rem;
+            color: #4553c9;
+            flex: 1; 
+        }
+        .welcome p {
+            color: #6b7280;
+            padding-left: 24px;
+            flex: 1; 
+        }
+        .welcome img {
+            height: auto;
+            width: 100%; 
+            max-width: 200px; 
+            padding-right: 15px;
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 24px;
+            padding: 24px;
+            padding-top: 0;
+        }
+        .card {
+            background-color: #4656e7;
+            color: #fff;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .card.yellow {
+            background-color: #fbbf24;
+        }
+        .card h3 {
+            margin: 0;
+            font-size: 1.25rem;
+        }
+         .info {
+            display: flex;
+            align-items: center;
+            margin: 10px;
+        }
+        .info .fas{
+           margin-left: 90%;
+        }
+        .card p {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 5px 0;
+        }
+        .card a {
+            display: block;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.1);
+            padding: 8px;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #fff;
+        }
+     
+.no-scroll {
+    overflow: hidden;
+    height: 100vh;
+}
+.main-content.scroll-locked {
+    overflow: hidden !important;
+}
+
+
+        @media (min-width: 768px) {
+            .navbar .menu-icon {
+                display: none;
+            }
+            .sidebar {
+                left: 0;
+                top: 64px;
+            }
+            .main-content {
+                margin-left: 250px;
+            }
+}
+
+        @media (max-width: 767px) {
+            .navbar .menu-icon {
+                display: block;
+            }
+            .welcome {
+                flex-direction: column; 
+                align-items: flex-start; 
+                margin: -60px 25px ; 
+            }
+            .welcome h2, .welcome p {
+                width: 100%;
+                padding-left: 0; 
+            }
+            .cards {
+                grid-template-columns: 1fr;
+            }
+            .main-content.shifted {
+            margin-left: 0;
+        }
+        body:not(.no-scroll) {
+        overflow-y: auto !important;
+        height: auto !important;
+    }
+
+    .main-content:not(.scroll-locked) {
+        height: auto !important;
+        overflow-y: visible !important;
+        padding-bottom: 5px;
+    }
+        }
+
+     /* ===============================
+   RESPONSIVE IMPROVEMENT
+   =============================== */
+
+/* Supaya layout lebih fleksibel */
+* {
+    box-sizing: border-box;
+}
+
+/* Main content lebih aman */
+.main-content {
+    padding-bottom: 30px;
+}
+
+/* Header agar tidak terlalu padat di layar kecil */
+@media (max-width: 1024px) {
+    .header {
+        padding: 0 25px;
+    }
+
+    .p h1 {
+        font-size: 22px;
+    }
+
+    .p p {
+        font-size: 14px;
+    }
+}
+
+/* Tablet */
+@media (max-width: 991px) {
+    .welcome {
+        margin: -50px 20px ;
+        padding: 20px;
+    }
+
+    .cards {
+        gap: 18px;
+        padding: 20px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+}
+
+/* Mobile besar */
+@media (max-width: 768px) {
+
+    .header {
+        height: auto;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between; /* tetap kiri kanan */
+        align-items: center;
+        flex-direction: row; /* tetap horizontal */
+    }
+
+    .header .info {
+        white-space: nowrap; /* tidak turun */
+        font-size: 11px;
+        padding: 5px 10px;
+    }
+
+    .welcome {
+        margin: -40px 15px ;
+        padding: 18px;
+        border-radius: 10px;
+    }
+
+    .welcome img {
+        max-width: 160px;
+        margin-top: 15px;
+    }
+
+    .cards {
+        padding: 15px;
+        gap: 16px;
+    }
+
+    .card {
+        padding: 18px;
+        border-radius: 10px;
+    }
+
+    .card p {
+        font-size: 1.7rem;
+    }
+}
+
+/* Mobile kecil */
+@media (max-width: 480px) {
+
+    .p h1 {
+        font-size: 20px;
+    }
+
+    .p p {
+        font-size: 13px;
+    }
+
+    .welcome {
+        margin: -35px 12px;
+        padding: 15px;
+    }
+
+    .cards {
+        padding: 12px;
+        gap: 14px;
+    }
+
+    .card h3 {
+        font-size: 1.05rem;
+    }
+
+    .card p {
+        font-size: 1.5rem;
+    }
+}
+
+        /* =========================
+        KHUSUS HALAMAN GURPIK
+        ========================= */
+        .gurpik-page {
+            padding: 20px;
+        }
+
+        /* TITLE JADI CARD PUTIH */
+            .gurpik-page .page-title {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                background: #fff;
+                border-radius: 10px;
+                padding: 20px 25px;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+                margin-bottom: 20px;
+            }
+
+            .gurpik-page .page-title i {
+                color: #4b5563;
+                font-size: 16px;
+            }
+
+            .gurpik-page .page-title h1 {
+                font-size: 18px;
+                font-weight: bold;
+                color: #4b5563;
+                margin: 0;
+            }
+
+        /* CARD */
+        .gurpik-page .card1 {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+
+        /* HEADER CARD */
+        .gurpik-page .card1 .header {
+            background: none; /* HILANGKAN gradient global */
+            height: auto;
+            padding: 0;
+            margin-bottom: 15px;
+        }
+
+        .gurpik-page .card1 .header h2 {
+            color: #4f46e5;
+            font-size: 18px;
+        }
+
+        .gurpik-page .btn-primary {
+            background: #4f46e5;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        /* FILTER */
+        .gurpik-page .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+         .gurpik-page .controls select,
+.gurpik-page .controls input {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+         .gurpik-page .controls label{
+           font-size: 14px;
+        }
+
+        .gurpik-page .controls button {
+            background: #4f46e5;
+            color: #fff;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 13px;
+
+        }
+
+        /* TABLE */
+        .gurpik-page table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .gurpik-page thead {
+            background: #f3f4f6;
+        }
+
+        .gurpik-page th,
+        .gurpik-page td {
+            padding: 8px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .gurpik-page tbody tr {
+            border-bottom: 1px solid #eee;
+        }
+
+        /* AKSI */
+        .gurpik-page .edit {
+            color: #000;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        .gurpik-page .hapus {
+            color: red;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+
+       /* ================= PAGINATION SUPER FIX ================= */
+
+.gurpik-page .pagination {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: 15px;
+    font-size: 13px;
+}
+
+/* Tulisan kiri */
+.gurpik-page .pagination > span {
+    white-space: nowrap;
+}
+
+/* Paksa bagian kanan ke ujung kanan */
+.gurpik-page .pagination-controls {
+    margin-left: auto;   /* 🔥 INI KUNCINYA */
+    display: flex;
+    align-items: center;
+}
+
+/* Override Laravel */
+.gurpik-page .pagination-controls nav {
+    width: auto !important;
+    margin: 0;
+}
+
+.gurpik-page .pagination-controls ul {
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.gurpik-page .pagination-controls li {
+    list-style: none;
+}
+        
+/* ===============================
+   SCROLL KHUSUS DI DALAM CARD
+================================ */
+.gurpik-page .table-container {
+    width: 100%;
+    max-height: 400px;      /* 🔥 tinggi area tabel */
+    overflow-y: auto;       /* scroll atas bawah */
+    overflow-x: auto;       /* scroll kanan kiri */
+    border-radius: 8px;
+}
+
+/* tabel tetap normal */
+.gurpik-page table {
+    width: 100%;
+    min-width: 800px;
+    border-collapse: collapse;
+}
+
+/* supaya teks tidak turun */
+.gurpik-page th,
+.gurpik-page td {
+    white-space: nowrap;
+}
+
+/* HEADER FLEX RESPONSIF */
+.gurpik-page .card1 .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.gurpik-page .card1 .header h2 {
+    margin: 0;
+}
+/* FILTER RESPONSIF */
+@media (max-width: 768px) {
+    .gurpik-page .controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .gurpik-page .controls .entries,
+    .gurpik-page .controls .search {
+        width: 100%;
+    }
+
+    .gurpik-page .controls form {
+        display: flex;
+        gap: 5px;
+        width: 100%;
+    }
+
+    .gurpik-page .controls input {
+        flex: 1;
+    }
+}/* TABLE IMPROVEMENT */
+.gurpik-page table {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.gurpik-page thead th {
+    position: sticky;
+    top: 0;
+    background: #f3f4f6;
+    z-index: 2;
+}
+
+.gurpik-page tbody tr:hover {/* PAGINATION RESPONSIF */
+@media (max-width: 768px) {
+    .gurpik-page .pagination {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .gurpik-page .pagination-controls {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+}
+    background: #f9fafb;
+}
+/* Tablet */
+@media (max-width: 992px) {
+    .gurpik-page table {
+        min-width: 700px;
+    }
+}
+
+/* HP */
+@media (max-width: 576px) {
+    .gurpik-page table {
+        min-width: 600px;
+    }
+
+    .gurpik-page th,
+    .gurpik-page td {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .gurpik-page .page-title h1 {
+        font-size: 16px;
+    }
+}
+        /* =========================
+            MODAL GURPIK (FIX UKURAN NORMAL)
+            ========================= */
+            /* Overlay modal */
+.modal {
+    display: none; /* default hidden */
+    position: fixed; /* fixed di viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5); /* semi transparan */
+    z-index: 9999; /* di atas semua konten */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Konten modal */
+.modal-content {
+    background-color: #fff;
+    padding: 25px 30px;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 90%; /* responsif */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    position: relative;
+}
+
+/* Tombol modal */
+.modal-buttons {
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn-approve {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 7px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-reject {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 7px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-cancel {
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+    padding: 7px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+            /* HEADER */
+            .modal-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 12px;
+            }
+
+            .modal-header h3 {
+                margin: 0;
+                font-size: 15px; /* 🔥 kecil */
+                font-weight: 600;
+            }
+
+            .close {
+                font-size: 16px;
+                cursor: pointer;
+            }
+
+            /* FORM */
+            .modal .form-group {
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 12px;
+            }
+
+            .modal label {
+                font-size: 13px;
+                margin-bottom: 4px;
+                color: #444;
+            }
+
+            .modal input {
+                padding: 6px 8px;
+                font-size: 13px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+            }
+
+            /* FOOTER */
+            .modal-footer {
+                display: flex;
+                gap: 8px;
+                margin-top: 10px;
+            }
+
+            /* BUTTON */
+            .btn-save {
+                background: #4f46e5;
+                color: #fff;
+                border: none;
+                padding: 6px 10px; /* 🔥 kecil */
+                font-size: 12px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            .btn-cancel {
+                background: #ef4444;
+                color: #fff;
+                border: none;
+                padding: 6px 10px;
+                font-size: 12px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            /* HOVER */
+            .btn-save:hover {
+                background: #4338ca;
+            }
+
+            .btn-cancel:hover {
+                background: #dc2626;
+            }
+            /* =========================
+            BUTTON AKSI (EDIT & HAPUS)
+            ========================= */
+            .btn-edit,
+            .btn-detail,
+            .btn-delete {
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+
+                font-size: 12px;
+                padding: 5px 8px;
+                border-radius: 5px;
+                text-decoration: none;
+                border: none;
+                cursor: pointer;
+            }
+
+            /* EDIT */
+            .btn-edit {
+                background: #3b82f6;
+                color: #fff;
+            }
+
+            .btn-detail {
+                background-color: #3498db;
+                color: #fff;
+            }
+
+            /* DELETE */
+            .btn-delete {
+                background: #ef4444;
+                color: #fff;
+            }
+
+            /* ICON */
+            .btn-edit i,
+            .btn-detail i,
+            .btn-delete i {
+                font-size: 12px;
+            }
+
+            /* ANIMASI */
+            @keyframes fadeIn {
+                from {
+                    transform: translateY(-10px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+
+.error-box {
+    display: none;
+    background: #fdecec;
+    color: #d93025;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    line-height: 1.6;
+    border-left: 4px solid #d93025;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================
+   HALAMAN DETAIL DISPEN
+========================= */
+.dispen-detail-page {
+    padding: 20px;
+    background: #f4f6f9;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* ===== TITLE ===== */
+.page-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 18px 22px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    margin-bottom: 20px;
+}
+
+.page-title i {
+    color: #6b7280;
+    font-size: 16px;
+}
+
+.page-title h1 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #374151;
+    margin: 0;
+}
+
+/* ===== CARD ===== */
+.detail-card {
+    width: 100%;
+    max-width: 750px; /* batas biar gak kepanjangan */
+    background: #fff;
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+}
+
+/* ===== SECTION ===== */
+
+.section h3 {
+    font-size: 15px;
+    margin: 15px;
+    color: #374151;
+}
+
+/* ===== HEADER FLEX ===== */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.section-header h3 {
+    font-size: 15px;
+    color: #374151;
+}
+
+/* ===== BUTTON KEMBALI ===== */
+.btn-back {
+    background: #eef2ff;
+    color: #4338ca;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.btn-back:hover {
+    background: #c7d2fe;
+}
+
+/* ===== TABLE SISWA ===== */
+.table-responsive {
+    overflow-x: auto;
+}
+
+.table-siswa {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.table-siswa th {
+    background: #4690e5;
+    color: #fff;
+    padding: 7px;
+    text-align: left;
+}
+
+.table-siswa td {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+}
+/* tombol tetap sejajar */
+.aksi-btn-group {
+    display: flex;
+    gap: 8px;
+}.aksi-box {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+.table-siswa tr:hover {
+    background: #f9fafb;
+}
+
+/* highlight siswa utama */
+.table-siswa tr.utama {
+    background: #ecfdf5;
+    font-weight: 500;
+}
+
+/* ===== BADGE ===== */
+.badge-utama {
+    background: #22c55e;
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+}
+
+.badge-tambahan {
+    background: #3b82f6;
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+}
+
+/* ===== INFO GRID ===== */
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.info-grid div {
+    background: #f9fafb;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 13px;
+}
+
+/* ===== STATUS ===== */
+.uy {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+/* warna status */
+.status-badge.disetujui { background: #dcfce7; color: #166534; }
+.status-badge.ditolak { background: #fee2e2; color: #991b1b; }
+.status-badge.dalam-proses { background: #fef9c3; color: #854d0e; }
+.status-badge.menunggu-persetujuan-admin { background: #c3dbfe; color: #0275d8; }
+.status-badge.menunggu-persetujuan-guru { background: #d6edff; color: #5bc0de; }
+
+/* ===== BUTTON ===== */
+.btn-approve,
+.btn-reject {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.btn-approve {
+    background: #22c55e;
+    color: #fff;
+}
+
+.btn-approve:hover {
+    background: #16a34a;
+}
+
+.btn-reject {
+    background: #ef4444;
+    color: #fff;
+}
+
+.btn-reject:hover {
+    background: #dc2626;
+}
+/* =========================
+   RESPONSIVE
+========================= */
+
+/* TABLET */
+@media (max-width: 992px) {
+    .detail-card {
+        max-width: 100%;
+        padding: 16px;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr; /* jadi 1 kolom */
+    }
+}
+
+
+/* HP */
+@media (max-width: 768px) {
+
+    .dispen-detail-page {
+        padding: 20px;
+    }
+
+    .page-title {
+        align-items: flex-start;
+    }
+
+    .page-title h1 {
+        font-size: 16px;
+    }
+
+    .section-header {
+        align-items: center;
+        gap: 8px;
+        display: flex;
+    justify-content: space-between;
+    align-items: center;
+    }
+
+    /* table jadi scroll */
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .table-siswa th,
+    .table-siswa td {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    /* tombol aksi turun tapi tetap rapi */
+
+    .aksi-btn-group {
+        flex-wrap: wrap;
+    }
+}
+
+
+/* HP KECIL BANGET */
+@media (max-width: 480px) {
+
+    .detail-card {
+        padding: 14px;
+        border-radius: 14px;
+    }
+
+    .page-title {
+        padding: 14px;
+    }
+
+    .info-grid div {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .status-badge {
+        font-size: 11px;
+        padding: 4px 8px;
+    }
+
+    .btn-approve,
+    .btn-reject {
+        font-size: 11px;
+        padding: 5px 8px;
+    }
+}
+/* ===== MODAL ===== */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    width: 320px;
+    animation: fadeIn 0.25s ease;
+}
+
+/* input */
+.modal select,
+.modal textarea {
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+/* tombol modal */
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.btn-cancel {
+    background: #9ca3af;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-cancel:hover {
+    background: #6b7280;
+}
+
+/* animasi */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+/* =========================
+   HALAMAN LAPORAN
+========================= */
+.laporan-page {
+    padding: 0; /* hapus padding 20px */
+}
+
+/* Card utama laporan */
+.laporan-page .card1 {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px 25px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    margin-bottom: 20px; /* jarak bawah seperti page-title */
+}
+
+/* Judul */
+.laporan-page h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #4f46e5;
+    margin-bottom: 15px;
+}
+
+/* Form filter */
+.laporan-page .input-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.laporan-page .input-group input[type="date"] {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 13px;
+}
+
+/* Tombol cari */
+.laporan-page .cari {
+    background: #4f46e5;
+    color: #fff;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.laporan-page .cari:hover {
+    background: #4338ca;
+}
+
+/* Tombol download */
+.laporan-page .download-button {
+    background: #10b981;
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+    transition: 0.2s ease;
+}
+
+.laporan-page .download-button:hover {
+    background: #059669;
+}
+
+/* Table container */
+.laporan-page .table-container {
+    overflow-x: auto;
+}
+
+/* Table */
+.laporan-page table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.laporan-page thead {
+    background: #f3f4f6;
+}
+
+.laporan-page th {
+    padding: 10px;
+    text-align: left;
+    font-weight: 600;
+    color: #374151;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.laporan-page td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #f1f1f1;
+    color: #555;
+}
+
+.laporan-page tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+/* Status */
+.laporan-page .status {
+    font-weight: 600;
+}
+
+.laporan-page .status.disetujui {
+    color: #16a34a;
+}
+
+.laporan-page .status.ditolak {
+    color: #dc2626;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .laporan-page .input-group {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* =====================================
+   LAPORAN RESPONSIVE PERFECT FIX
+===================================== */
+/* Grup tombol */
+.laporan-page .input-group .btn {
+    display: flex;
+    gap: 10px;
+    margin-left: 0 !important;   /* hapus auto */
+    width: auto !important;
+}
+
+/* Tombol tetap sejajar */
+.laporan-page .input-group .btn .cari,
+.laporan-page .input-group .btn .download-button {
+    white-space: nowrap;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+
+    .laporan-page .input-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    /* Input full */
+    .laporan-page .input-group input[type="date"] {
+        width: 100%;
+    }
+
+    /* Tombol tetap sebelahan */
+    .laporan-page .input-group .btn {
+        display: flex;
+        width: 100%;
+    }
+
+    .laporan-page .input-group .btn .cari,
+    .laporan-page .input-group .btn .download-button {
+        flex: 1;
+        text-align: center;
+    }
+}
+/* Form lebih rapi */
+.laporan-page .input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Bungkus tombol */
+.laporan-page .btn {
+    margin-left: auto; 
+}
+
+/* Table tidak pecah */
+.laporan-page table {
+    min-width: 1000px; 
+}
+
+/* Supaya text tidak turun */
+.laporan-page th,
+.laporan-page td {
+    white-space: nowrap;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+
+    .laporan-page .card1 {
+        padding: 15px;
+    }
+
+    .laporan-page h2 {
+        font-size: 16px;
+    }
+
+    /* Form jadi vertikal */
+    .laporan-page .input-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .laporan-page .input-group input[type="date"],
+    .laporan-page .cari,
+    .laporan-page .download-button {
+        width: 100%;
+    }
+
+    .laporan-page .btn {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    /* Table font lebih kecil */
+    .laporan-page table {
+        font-size: 12px;
+    }
+
+    .laporan-page th,
+    .laporan-page td {
+        padding: 6px;
+    }
+}
+
+/* HP kecil banget */
+@media (max-width: 480px) {
+
+    .laporan-page table {
+        font-size: 11px;
+    }
+
+    .laporan-page th,
+    .laporan-page td {
+        padding: 5px;
+    }
+}
+/* =========================
+   HALAMAN PENGATURAN
+========================= */
+
+.pengaturan-header {
+    margin-bottom: 20px;
+}
+
+.tabs {
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid #ddd;
+}
+
+.tab {
+    background: none;
+    border: none;
+    padding: 0 25px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    color: #6b7280;
+    border-bottom: 2px solid transparent;
+}
+
+.tab.active {
+    color: #2563eb;
+    border-bottom: 2px solid #2563eb;
+}
+
+/* ================= CARD LAYOUT ================= */
+
+.card-wrapper {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.card-box {
+    flex: 1;
+    min-width: 320px;
+    max-width: 520px;
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.card-box.single {
+    max-width: 520px;
+    margin: 0;
+}
+
+.card-box h3 {
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #2563eb;
+}
+
+/* ================= FOTO ================= */
+
+.profile-image {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.profile-image img {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* ================= FORM ================= */
+
+.card-box label {
+    display: block;
+    margin-top: 12px;
+    font-size: 13px;
+    color: #555;
+}
+
+.card-box input {
+    width: 100%;
+    padding: 8px 10px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 13px;
+}
+
+.card-box input:focus {
+    border-color: #2563eb;
+    outline: none;
+}
+
+.card-box small {
+    display: block;
+    font-size: 12px;
+    margin: 8px 0;
+    color: #6b7280;
+}
+
+/* ================= BUTTON ================= */
+
+.btn-primary {
+    margin-top: 15px;
+    padding: 8px 15px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.2s ease;
+}
+
+.btn-primary:hover {
+    background: #1e40af;
+}
+
+/* ================= TAB CONTENT ================= */
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+    .card-wrapper {
+        flex-direction: column;
+    }
+}
+
+/* =====================================
+   LOCK SCROLL SAAT SIDEBAR MOBILE AKTIF
+===================================== */
+
+body.sidebar-open {
+    overflow: hidden !important;
+    height: 100vh;
+}
+
+/* =====================================
+   WELCOME FIX
+===================================== */
+.welcome {
+    margin: -50px 20px 20px 20px !important;
+}
+
+@media (max-width: 768px) {
+    .welcome {
+        margin: -20px 15px 10px 15px !important;
+    }
+}
+
+/* =====================================
+   SIDEBAR FIX
+===================================== */
+body.sidebar-open {
+    overflow: hidden !important;
+}
+
+@media (min-width: 768px) {
+    .sidebar {
+        left: 0 !important;
+    }
+
+    .main-content {
+        margin-left: 250px;
+    }
+}
