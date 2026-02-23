@@ -22,8 +22,6 @@ public function index(Request $request)
     $showAll = $request->all == 'true';
    $query = Dispen::with([
     'kelasRel',
-    'jamKeluar',
-    'jamKembali',
     'guru'
 ]);
 
@@ -59,12 +57,11 @@ if (!$showAll) {
    public function create()
 {   
     $kelas = DB::table('kelas')->get();
-    $jampel = DB::table('jampel')->get();
     $guru = DB::table('users')
                 ->where('role', 'guru')
                 ->get();
 
-    return view('auth.dispen', compact('kelas','jampel','guru'));
+    return view('auth.dispen', compact('kelas','guru'));
 }
 
 
@@ -79,8 +76,6 @@ if (!$showAll) {
         'nama_tambahan' => 'array|max:10',
 
         'kelas' => 'required',
-        'jam_keluar' => 'required',
-        'jam_kembali' => 'required',
         'email' => 'required|email',
         'id_guru' => 'required|exists:users,id_user',
         'alasan' => 'required|string'
@@ -91,8 +86,6 @@ if (!$showAll) {
         'nis' => $request->nis,
         'nama' => $request->nama,
         'kelas' => $request->kelas,
-        'jam_keluar' => $request->jam_keluar,
-        'jam_kembali' => $request->jam_kembali,
         'email' => $request->email,
         'id_guru' => $request->id_guru,
         'alasan' => $request->alasan,
@@ -128,15 +121,11 @@ public function show($id)
 {
     $data = DB::table('dispen as d')
         ->leftJoin('kelas as k', 'd.kelas', '=', 'k.id_kelas')
-        ->leftJoin('jampel as jk', 'd.jam_keluar', '=', 'jk.id_jampel')
-        ->leftJoin('jampel as jb', 'd.jam_kembali', '=', 'jb.id_jampel')
         ->leftJoin('users as u', 'd.id_guru', '=', 'u.id_user')
         ->where('d.id_dispen', $id)
         ->select(
             'd.*',
             'k.klas as kelas',
-            'jk.jam as jam_keluar',
-            'jb.jam as jam_kembali',
             'u.username as guru'
         )
         ->first();
@@ -165,11 +154,9 @@ public function destroy($id)
    private function updateStatus($data)
 {   
     // load relasi biar tidak jadi object mentah
-$data->load(['kelasRel', 'jamKeluar', 'jamKembali', 'guru', 'guruPiket']);
+$data->load(['kelasRel','guru', 'guruPiket']);
 // mapping ke string (🔥 ini kunci utama)
 $kelasNama = optional($data->kelasRel)->klas ?? '-';
-$jamKeluarNama = optional($data->jamKeluar)->jam ?? '-';
-$jamKembaliNama = optional($data->jamKembali)->jam ?? '-';
 $guruNama = optional($data->guru)->username ?? '-';
 $guruPiketNama = optional($data->guruPiket)->gurpi ?? '-';
     if (!empty($data->admin_action) && !empty($data->guru_action)) {
@@ -266,8 +253,6 @@ if ($data->admin_action === 'tolak') {
         $status_guru_pengajar,
         $status_guru_piket,
         $kelasNama,
-        $jamKeluarNama,
-        $jamKembaliNama,
         $guruNama,
         $guruPiketNama
     ));

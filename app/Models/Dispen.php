@@ -13,8 +13,6 @@ class Dispen extends Model
         'nis',
         'nama',
         'kelas',
-        'jam_keluar',
-        'jam_kembali',
         'email',
         'id_guru',
         'gurpi',
@@ -31,18 +29,6 @@ class Dispen extends Model
     public function kelasRel()
     {
         return $this->belongsTo(Kelas::class, 'kelas', 'id_kelas');
-    }
-
-    // 🔹 Relasi jam keluar
-    public function jamKeluar()
-    {
-        return $this->belongsTo(Jampel::class, 'jam_keluar', 'id_jampel');
-    }
-
-    // 🔹 Relasi jam kembali
-    public function jamKembali()
-    {
-        return $this->belongsTo(Jampel::class, 'jam_kembali', 'id_jampel');
     }
 
     // 🔹 Guru yang diajukan

@@ -62,8 +62,6 @@
     <div class="info-grid">
         <div><strong>Kelas:</strong> {{ $data->kelas }}</div>
         <div><strong>Guru Pengajar:</strong> {{ $data->guru }}</div>
-        <div><strong>Jam Keluar:</strong> {{ $data->jam_keluar }}</div>
-        <div><strong>Jam Kembali:</strong> {{ $data->jam_kembali }}</div>
         <div><strong>Email:</strong> {{ $data->email }}</div>
         <div><strong>Keperluan:</strong> {{ $data->alasan }}</div>
 

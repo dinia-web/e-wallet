@@ -57,22 +57,6 @@
             @endforeach
         </select>
 
-        <label>Jam keluar</label>
-        <select name="jam_keluar" required>
-            <option value="">Pilih jam keluar</option>
-            @foreach($jampel as $j)
-                <option value="{{ $j->id_jampel }}">{{ $j->jam }}</option>
-            @endforeach
-        </select>
-
-        <label>Jam kembali</label>
-        <select name="jam_kembali" required>
-            <option value="">Pilih jam kembali</option>
-            @foreach($jampel as $j)
-                <option value="{{ $j->id_jampel }}">{{ $j->jam }}</option>
-            @endforeach
-        </select>
-
         <label>Guru Pengajar</label>
             <select name="id_guru" required>
                 <option value="">Pilih Guru</option>

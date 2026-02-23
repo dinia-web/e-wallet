@@ -64,16 +64,6 @@
             <td>: {{ $kelasNama }}</td>
         </tr>
         <tr>
-            <td><strong>Jam Keluar</strong></td>
-<td>: {{ $jamKeluarNama }}</td>
-
-        </tr>
-        <tr>
-            <td><strong>Jam Kembali</strong></td>
-        
-<td>: {{ $jamKembaliNama }}</td>
-        </tr>
-        <tr>
             <td><strong>Keperluan</strong></td>
             <td>: {{ $data->alasan }}</td>
         </tr>

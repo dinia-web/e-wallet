@@ -15,8 +15,6 @@
                 $table->integer('nis'); // INT(11)
                 $table->string('nama'); // VARCHAR(255)
                 $table->unsignedInteger('kelas');
-                $table->unsignedInteger('jam_keluar');
-                $table->unsignedInteger('jam_kembali');
 
                 $table->string('email'); // VARCHAR(255)
 
@@ -46,8 +44,6 @@
 
                 // INDEXES
                 $table->index('kelas');
-                $table->index('jam_keluar');
-                $table->index('jam_kembali');
                 $table->index('gurpi');
                 $table->index('approved_by_admin');
                 $table->index('approved_by_guru');
@@ -61,18 +57,6 @@
                 $table->foreign('kelas')
                     ->references('id_kelas')
                     ->on('kelas')
-                    ->onDelete('cascade');
-
-                // FK jam keluar
-                $table->foreign('jam_keluar')
-                    ->references('id_jampel')
-                    ->on('jampel')
-                    ->onDelete('cascade');
-
-                // FK jam kembali
-                $table->foreign('jam_kembali')
-                    ->references('id_jampel')
-                    ->on('jampel')
                     ->onDelete('cascade');
 
                 // FK approved admin

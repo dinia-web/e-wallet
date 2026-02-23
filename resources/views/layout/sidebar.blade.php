@@ -40,11 +40,6 @@
                     <span>Kelas</span>
                 </a>
 
-                <a class="{{ request()->is('jampel*') ? 'active' : '' }}" href="{{ url('/jampel') }}">
-                    <i class="fas fa-clock"></i>
-                    <span>Jam Pelajaran</span>
-                </a>
-
                 <a class="{{ request()->is('gurpik*') ? 'active' : '' }}" href="{{ route('gurpik.index') }}">
                     <i class="fas fa-user-tie"></i>
                     <span>Guru Piket</span>

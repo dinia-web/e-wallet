@@ -11,8 +11,6 @@ class DispenStatusMail extends Mailable
 public $status_guru_pengajar;
 public $status_guru_piket;
 public $kelasNama;
-public $jamKeluarNama;
-public $jamKembaliNama;
 public $guruNama;
 public $guruPiketNama;
 
@@ -22,8 +20,6 @@ public function __construct(
     $status_guru_pengajar,
     $status_guru_piket,
     $kelasNama,
-    $jamKeluarNama,
-    $jamKembaliNama,
     $guruNama,
     $guruPiketNama
 ){
@@ -32,8 +28,6 @@ public function __construct(
     $this->status_guru_pengajar = $status_guru_pengajar;
     $this->status_guru_piket = $status_guru_piket;
     $this->kelasNama = $kelasNama;
-    $this->jamKeluarNama = $jamKeluarNama;
-    $this->jamKembaliNama = $jamKembaliNama;
     $this->guruNama = $guruNama;
     $this->guruPiketNama = $guruPiketNama;
 }
@@ -48,8 +42,6 @@ public function __construct(
     'status_guru_pengajar' => $this->status_guru_pengajar,
     'status_guru_piket' => $this->status_guru_piket,
     'kelasNama' => $this->kelasNama,
-    'jamKeluarNama' => $this->jamKeluarNama,
-    'jamKembaliNama' => $this->jamKembaliNama,
     'guruNama' => $this->guruNama,
     'guruPiketNama' => $this->guruPiketNama
                         ]);
