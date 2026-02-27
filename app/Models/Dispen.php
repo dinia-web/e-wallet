@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Siswa;
 class Dispen extends Model
 {
     protected $table = 'dispen';
@@ -14,6 +14,7 @@ class Dispen extends Model
         'nama',
         'kelas',
         'email',
+        'no_hp',
         'id_guru',
         'gurpi',
         'alasan',
@@ -28,8 +29,12 @@ class Dispen extends Model
     // 🔹 Relasi ke tabel kelas
     public function kelasRel()
     {
-        return $this->belongsTo(Kelas::class, 'kelas', 'id_kelas');
+        return $this->belongsTo(Siswa::class, 'kelas', 'nis');
     }
+    public function siswa()
+{
+    return $this->belongsTo(Siswa::class, 'nis', 'nis');
+}
 
     // 🔹 Guru yang diajukan
     public function guru()

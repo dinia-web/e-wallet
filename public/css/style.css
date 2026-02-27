@@ -546,12 +546,12 @@
         }
         
          .gurpik-page .controls select,
-.gurpik-page .controls input {
-    padding: 6px 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 13px;
-}
+            .gurpik-page .controls input {
+                padding: 6px 10px;
+                border: 1px solid #ccc;
+                border-radius: 6px;
+                font-size: 13px;
+            }
 
          .gurpik-page .controls label{
            font-size: 14px;
@@ -602,42 +602,106 @@
             cursor: pointer;
         }
 
-       /* ================= PAGINATION SUPER FIX ================= */
+/* ================= PAGINATION RESPONSIVE FIX ================= */
 
 .gurpik-page .pagination {
     display: flex;
+    justify-content: space-between;
     align-items: center;
+    flex-wrap: nowrap; /* 🔥 jangan biarkan turun */
+    gap: 10px;
     width: 100%;
-    margin-top: 15px;
-    font-size: 13px;
 }
 
-/* Tulisan kiri */
+/* tulisan kiri */
 .gurpik-page .pagination > span {
     white-space: nowrap;
 }
 
-/* Paksa bagian kanan ke ujung kanan */
+/* bagian kanan */
 .gurpik-page .pagination-controls {
-    margin-left: auto;   /* 🔥 INI KUNCINYA */
     display: flex;
     align-items: center;
+    margin-left: auto;
 }
 
-/* Override Laravel */
+/* UL pagination */
+.gurpik-page .pagination-controls ul {
+    display: flex;
+    gap: 5px;
+    margin: 0;
+    padding: 12px;
+}
+
+/* Laravel nav */
 .gurpik-page .pagination-controls nav {
     width: auto !important;
     margin: 0;
 }
 
-.gurpik-page .pagination-controls ul {
-    display: flex;
-    margin: 0;
-    padding: 0;
-}
 
 .gurpik-page .pagination-controls li {
     list-style: none;
+}
+
+/* Style tombol */
+.gurpik-page .pagination-controls a,
+.gurpik-page .pagination-controls span {
+    display: block;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+}
+
+/* Hover */
+.gurpik-page .pagination-controls a:hover {
+    background: #f3f4f6;
+}
+
+/* Active */
+.gurpik-page .pagination-controls .active span {
+    background: #2563eb;
+    color: white;
+    border-color: #2563eb;
+}
+
+/* ================= MOBILE FIX (TETAP SEJAJAR) ================= */
+
+@media (max-width: 768px) {
+
+    .gurpik-page .pagination {
+        flex-direction: row;      /* 🔥 tetap horizontal */
+        align-items: center;
+        justify-content: space-between;
+        font-size: 11px;
+    }
+
+    .gurpik-page .pagination-controls {
+        width: auto;
+        justify-content: flex-end;
+    }
+
+    .gurpik-page .pagination-controls ul {
+        flex-wrap: nowrap;        /* 🔥 jangan turun */
+    }
+
+    .gurpik-page .pagination-controls a,
+    .gurpik-page .pagination-controls span {
+        padding: 5px 5px;
+        font-size: 5px;
+    }
+}
+
+/* Extra kecil */
+@media (max-width: 480px) {
+
+    .gurpik-page .pagination-controls a,
+    .gurpik-page .pagination-controls span {
+        padding: 3px 6px;
+        font-size: 11px;
+    }
 }
         
 /* ===============================

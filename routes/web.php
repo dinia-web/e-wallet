@@ -8,10 +8,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\GurpikController;
-use App\Http\Controllers\JampelController;
+use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PengaturanController;
-
 /*
 |--------------------------------------------------------------------------
 | Public Routes
@@ -33,7 +32,19 @@ Route::post('/lupa-password', [AuthController::class, 'prosesLupaPassword'])
 
 Route::get('/auth/dispen', [DispenController::class, 'create']); // ✅ siswa tanpa login
 Route::post('/auth/dispen', [DispenController::class, 'store']); // ✅ submit siswa
+Route::get('/get-siswa/{nis}', function ($nis) {
+    $siswa = \App\Models\Siswa::where('nis', $nis)->first();
 
+    if (!$siswa) {
+        return response()->json(['status' => false]);
+    }
+
+    return response()->json([
+        'status' => true,
+        'nama' => $siswa->nama,
+        'kelas' => $siswa->kelas
+    ]);
+});
 /*
 |--------------------------------------------------------------------------
 | Protected Routes (WAJIB LOGIN)
@@ -59,7 +70,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/dispen/{id}/action-guru', [DispenController::class, 'actionGuru'])
         ->name('dispen.actionGuru');
 
-    Route::resource('jampel', JampelController::class);
+    Route::resource('siswa', SiswaController::class);
     Route::resource('users', UserController::class);
     Route::resource('kelas', KelasController::class);
     Route::resource('gurpik', GurpikController::class);

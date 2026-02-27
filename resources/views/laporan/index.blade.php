@@ -34,8 +34,8 @@
                     <th>NIS</th>
                     <th>Nama</th>
                     <th>Kelas</th>
-                    <th>Jam Keluar</th>
-                    <th>Jam Kembali</th>
+                    <th>Email</th>
+                    <th>No Hp</th>
                     <th>Tanggal</th>
                     <th>Guru Pengajar</th>
                     <th>Guru Piket</th>
@@ -58,8 +58,8 @@
                         @endif
                     </td>
                     <td>{{ $row['kelas'] }}</td>
-                    <td>{{ $row['jam_keluar'] }}</td>
-                    <td>{{ $row['jam_kembali'] }}</td>
+                    <td>{{ $row['email'] }}</td>
+                    <td>{{ $row['no_hp'] }}</td>
                     <td>
                         {{ \Carbon\Carbon::parse($row['tanggal'])->format('d-m-Y') }}
                         <br>

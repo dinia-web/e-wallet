@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Register</title>
-<link rel="icon" href="{{ asset('images/logo.png') }}">
+<link rel="icon" href="{{ asset('images/y.png') }}">
 <link rel="stylesheet" href="{{ asset('css/dispen.css') }}">
 </head>
 
@@ -11,8 +11,8 @@
 
 <!-- HEADER -->
 <div class="header">
-    <img src="{{ asset('images/o.png') }}" alt="Logo E-Dispensasi">
-    <h1>E-Dispensasi</h1>
+    <img src="{{ asset('images/y.png') }}" alt="Logo E-Wallet">
+    <h1>Si Walet</h1>
 </div>
 
 <!-- FORM -->

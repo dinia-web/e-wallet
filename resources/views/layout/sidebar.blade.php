@@ -33,11 +33,11 @@
 
             <!-- SUBMENU -->
             <div id="submenu-manajemen" 
-                class="submenu {{ request()->is('kelas*') || request()->is('jampel*') || request()->is('gurpik*') || request()->is('users*') ? 'show' : '' }}">
+                class="submenu {{ request()->is('kelas*') || request()->is('siswa*') || request()->is('gurpik*') || request()->is('users*') ? 'show' : '' }}">
 
-                <a class="{{ request()->is('kelas*') ? 'active' : '' }}" href="{{ url('/kelas') }}">
-                    <i class="fas fa-school"></i>
-                    <span>Kelas</span>
+                <a class="{{ request()->is('users*') ? 'active' : '' }}" href="{{ url('/users') }}">
+                    <i class="fas fa-users-cog"></i>
+                    <span>User</span>
                 </a>
 
                 <a class="{{ request()->is('gurpik*') ? 'active' : '' }}" href="{{ route('gurpik.index') }}">
@@ -45,9 +45,9 @@
                     <span>Guru Piket</span>
                 </a>
 
-                <a class="{{ request()->is('users*') ? 'active' : '' }}" href="{{ url('/users') }}">
-                    <i class="fas fa-users-cog"></i>
-                    <span>Manajemen User</span>
+                <a class="{{ request()->is('siswa*') ? 'active' : '' }}" href="{{ url('/siswa') }}">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>Siswa</span>
                 </a>
 
             </div>

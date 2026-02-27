@@ -21,7 +21,7 @@
             border-right: 2px solid #ddd;
         }
         .img img{
-            width: 130px;
+            width: 110px;
             height: auto;
         }
         .login-container h4 {
@@ -56,7 +56,7 @@
         .btn {
             display: block;
             margin-bottom: 10px;
-            background-color: #4553c9;
+            background-color: #3a47a3;
             color: #fff;
             text-align: center;
             padding: 10px;
@@ -69,12 +69,12 @@
             cursor: pointer;
         }
         .btn:hover {
-            background-color: #3a47a3;
+            background-color: #4552bb;
         }
 
         /* Kotak Biru E-Dispensasi */
         .header {
-            background-color: #4553c9;
+            background-color: #001580;
             color: white;
             width: 100%;
             height: auto;

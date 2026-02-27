@@ -34,11 +34,20 @@
 
     <table width="100%" cellpadding="8" cellspacing="0" 
            style="border-collapse:collapse; font-size:13px;">
-
+             <!-- HEADER -->
+    <tr style="background:#f3f4f6;">
+        <th align="left">Nama</th>
+        <th align="left">NIS</th>
+        <th align="left">Kelas</th>
+        <th align="left">Keperluan</th>
+        <th align="left">Keterangan</th>
+    </tr>
         <!-- SISWA UTAMA -->
         <tr style="background:#ecfdf5;">
             <td><strong>{{ $data->nama }}</strong></td>
             <td>{{ $data->nis }}</td>
+            <td>{{ $kelasNama }}</td>
+            <td>{{ $data->alasan }}</td>
             <td style="color:#22c55e;"><strong>Pengaju</strong></td>
         </tr>
 
@@ -47,6 +56,8 @@
         <tr>
             <td>{{ $d->nama }}</td>
             <td>{{ $d->nis }}</td>
+            <td>{{ $d->siswa->kelas }}</td>
+            <td>{{ '-' }}</td>
             <td style="color:#3b82f6;">Tambahan</td>
         </tr>
         @endforeach
@@ -55,52 +66,49 @@
 
     <hr style="border:none; border-top:1px solid #eee; margin:20px 0;">
 
-    <!-- 🔥 DETAIL DISPENSASI -->
-    <h4 style="margin-bottom:10px;">Detail Dispensasi</h4>
+    <!-- STATUS MENINDAKLANJUTI -->
+    <h4>Yang Menindaklanjuti</h4>
 
-    <table width="100%" cellpadding="6" cellspacing="0" style="font-size:14px;">
-        <tr>
-            <td width="150"><strong>Kelas</strong></td>
-            <td>: {{ $kelasNama }}</td>
-        </tr>
-        <tr>
-            <td><strong>Keperluan</strong></td>
-            <td>: {{ $data->alasan }}</td>
-        </tr>
+    <table width="100%" cellpadding="8" cellspacing="0" style="font-size:14px; border-collapse:collapse;">
+    <tr>
+        <!-- GURU PENGAJAR -->
+        <td valign="top" width="50%" style="padding-right:10px;">
+            <strong>Guru Pengajar</strong>
+            <ul style="padding-left:20px; margin-top:5px;">
+            @if(!empty($status_guru_pengajar))
+                @foreach($status_guru_pengajar as $item)
+                    <li style="color:
+                        {{ $item['type'] == 'approved' ? '#16a34a' :
+                           ($item['type'] == 'rejected' ? '#dc2626' : '#f59e0b') }};">
+                        {{ $item['text'] }}
+                    </li>
+                @endforeach
+            @else
+                <li style="color:#999;">Belum ada aksi</li>
+            @endif
+            </ul>
+        </td>
+
+        <!-- GURU PIKET -->
+        <td valign="top" width="50%" style="padding-left:10px;">
+            <strong>Guru Piket</strong>
+            <ul style="padding-left:20px; margin-top:5px;">
+            @if(!empty($status_guru_piket))
+                @foreach($status_guru_piket as $item)
+                    <li style="color:
+                        {{ $item['type'] == 'approved' ? '#16a34a' :
+                           ($item['type'] == 'rejected' ? '#dc2626' : '#f59e0b') }};">
+                        {{ $item['text'] }}
+                    </li>
+                @endforeach
+            @else
+                <li style="color:#999;">Belum ada aksi</li>
+            @endif
+            </ul>
+        </td>
+    </tr>
     </table>
-
-    <hr style="border:none; border-top:1px solid #eee; margin:20px 0;">
-
-    <!-- 🔥 STATUS -->
-        <h4>Yang Menindaklanjuti</h4>
-
-    <ul style="padding-left:20px; font-size:14px;">
-
-        {{-- GURU PENGAJAR --}}
-        @foreach($status_guru_pengajar as $item)
-            <li style="
-                color:
-                {{ $item['type'] == 'approved' ? '#16a34a' :
-                ($item['type'] == 'rejected' ? '#dc2626' : '#f59e0b') }};
-            ">
-                {{ $item['text'] }}
-            </li>
-        @endforeach
-
-        {{-- GURU PIKET --}}
-        @foreach($status_guru_piket as $item)
-            <li style="
-                color:
-                {{ $item['type'] == 'approved' ? '#16a34a' :
-                ($item['type'] == 'rejected' ? '#dc2626' : '#f59e0b') }};
-            ">
-                {{ $item['text'] }}
-            </li>
-        @endforeach
-
-    </ul>
     <br>
-
     <p style="font-size:12px; color:#777;">
         Mohon simpan email ini sebagai bukti resmi.
     </p>

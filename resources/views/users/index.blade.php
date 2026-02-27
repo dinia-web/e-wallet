@@ -32,10 +32,11 @@
                 </select>
                 <label>entries</label>
             </div>
-
-            <form method="GET" class="search">
+<form method="GET" class="search">
                 <label>Search:</label>
-                <input type="text" name="search" value="{{ request('search') }}">
+                <input type="text" name="search" 
+                    value="{{ request('search') }}" 
+                    placeholder="Cari data...">
                 <button type="submit">Cari</button>
             </form>
 

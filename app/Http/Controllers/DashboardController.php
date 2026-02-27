@@ -29,16 +29,13 @@ class DashboardController extends Controller
         // ===============================
         elseif ($user->role == 'guru') {
 
-                $jumlah_dispen = Dispen::whereDate('created_at', $today)
-                                        ->where('id_guru', $user->id_user)
-                                        ->where('status', 'dalam proses')
-                                        ->count();
+            $jumlah_dispen = Dispen::where('id_guru', $user->id_user)
+                                    ->count();
 
-                $jumlah_terbaru = Dispen::whereDate('created_at', $today)
-                                        ->where('id_guru', $user->id_user)
-                                        ->count();
-            }
-
+            $jumlah_terbaru = Dispen::whereDate('created_at', $today)
+                                    ->where('id_guru', $user->id_user)
+                                    ->count();
+        }
         else {
             abort(403);
         }

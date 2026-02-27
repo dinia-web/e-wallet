@@ -27,6 +27,8 @@
                     <th>No</th>
                     <th>Nama</th>
                     <th>NIS</th>
+                    <th>Kelas</th>
+                    <th>Keperluan</th>
                     <th>Keterangan</th>
                 </tr>
             </thead>
@@ -37,6 +39,8 @@
                     <td>1</td>
                     <td>{{ $data->nama }}</td>
                     <td>{{ $data->nis }}</td>
+                    <td>{{ $data->kelas }}</td>
+                    <td>{{ $data->alasan }}</td>
                     <td><span class="badge-utama">Pengaju</span></td>
                 </tr>
 
@@ -46,6 +50,8 @@
                     <td>{{ $i + 2 }}</td>
                     <td>{{ $d->nama }}</td>
                     <td>{{ $d->nis }}</td>
+                    <td>{{ $d->siswa->kelas }}</td>
+                    <td>{{ '-' }}</td>
                     <td><span class="badge-tambahan">Tambahan</span></td>
                 </tr>
                 @endforeach
@@ -60,11 +66,9 @@
     <h3>📚 Informasi Dispensasi</h3>
 
     <div class="info-grid">
-        <div><strong>Kelas:</strong> {{ $data->kelas }}</div>
-        <div><strong>Guru Pengajar:</strong> {{ $data->guru }}</div>
+        <div><strong>Guru Pengajar:</strong> {{ $data->guru->username }}</div>
         <div><strong>Email:</strong> {{ $data->email }}</div>
-        <div><strong>Keperluan:</strong> {{ $data->alasan }}</div>
-
+        <div><strong>No Hp:</strong> {{ $data->no_hp }}</div>
         {{-- ✅ STATUS --}}
         <div class="uy">
             <strong>Status:</strong><br>

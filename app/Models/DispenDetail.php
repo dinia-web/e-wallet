@@ -18,4 +18,9 @@ class DispenDetail extends Model
     {
         return $this->belongsTo(Dispen::class, 'id_dispen', 'id_dispen');
     }
+    // Di model DispenDetail.php
+public function siswa()
+{
+    return $this->belongsTo(Siswa::class, 'nis', 'nis');
+}
 }

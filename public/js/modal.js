@@ -173,7 +173,7 @@ function closeEditModal() {
 }
 
 function changeLimit(limit) {
-    const url = new URL(window.location.href);
+    let url = new URL(window.location.href);
     url.searchParams.set('limit', limit);
     window.location.href = url.toString();
 }
@@ -327,3 +327,42 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 });
+// ============================
+// MODAL SISWA
+// ============================
+
+// Buka Modal Tambah
+function openModalSiswa() {
+    const modal = document.getElementById("modalSiswa");
+    if (modal) modal.style.display = "flex";
+}
+
+// Tutup Modal Tambah
+function closeModalSiswa() {
+    const modal = document.getElementById("modalSiswa");
+    if (modal) modal.style.display = "none";
+}
+
+// Buka Modal Edit
+function openEditModalSiswa(nis, nama, kelas) {
+    const modal = document.getElementById("modalEditSiswa");
+    const inputNis = document.getElementById("editNis");
+    const inputNama = document.getElementById("editNama");
+    const inputKelas = document.getElementById("editKelas");
+    const form = document.getElementById("formEdit");
+
+    if (modal && inputNis && inputNama && inputKelas && form) {
+        modal.style.display = "flex";
+        inputNis.value = nis;
+        inputNama.value = nama;
+        inputKelas.value = kelas;
+
+        form.action = "/siswa/" + nis;
+    }
+}
+
+// Tutup Modal Edit
+function closeEditModalSiswa() {
+    const modal = document.getElementById("modalEditSiswa");
+    if (modal) modal.style.display = "none";
+}

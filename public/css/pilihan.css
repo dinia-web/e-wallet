@@ -6,31 +6,55 @@
             height: 100%;
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #f8f9fc;
-            overflow: hidden; /* Mencegah scroll */
+            overflow: hidden;
         }
 
+        /* Background blur layer */
+        body::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: url('../images/bak.jpg') no-repeat center center/cover;
+            filter: blur(2px); /* tingkat blur */
+            transform: scale(1.1); /* supaya blur tidak potong pinggir */
+            z-index: -1;
+        }
+
+        /* Body tetap flex untuk center */
         body {
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
         }
-
+        
         .container {
             text-align: center;
             padding: 30px;
             border-radius: 10px;
-            width: 90%;
+        }
+        /* Card utama */
+        .card {
+            width: 100%;
             max-width: 350px;
+            position: relative;
+            backdrop-filter: blur(4px);
+            background: rgba(0, 0, 0, 0.15); /* lebih jernih */
+
+            padding: 35px 45px;
+            border-radius: 20px;
+
+            overflow: hidden;
+            animation: fadeIn 1.5s ease;
         }
 
         .logo-wrapper img {
-            width: 120px;
+            width: 130px;
             height: auto;
         }
 
         p {
-            color: #6c757d;
+            color: #e6e6e6;
             font-size: 14px;
             margin-bottom: 20px;
         }

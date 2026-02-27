@@ -22,8 +22,6 @@ class LaporanController extends Controller
 
             $query = Dispen::with([
                 'kelasRel',
-                'jamKeluar',
-                'jamKembali',
                 'guru',
                 'guruPiket',
                 'detail' // 🔥 relasi siswa tambahan
@@ -50,9 +48,9 @@ class LaporanController extends Controller
                 $finalData->push([
                     'nis' => $row->nis,
                     'nama' => $row->nama,
-                    'kelas' => $row->kelasRel->klas ?? '-',
-                    'jam_keluar' => $row->jamKeluar->jam ?? '-',
-                    'jam_kembali' => $row->jamKembali->jam ?? '-',
+                    'kelas' => $row->siswa->kelas ?? '-',
+                    'email' => $row->email,
+                    'no_hp' => $row->no_hp,
                     'tanggal' => $row->created_at,
                     'guru' => $row->guru->username ?? '-',
                     'gurpik' => $row->guruPiket->gurpi ?? '-',
@@ -65,9 +63,9 @@ class LaporanController extends Controller
                     $finalData->push([
                         'nis' => $d->nis,
                         'nama' => $d->nama,
-                        'kelas' => $row->kelasRel->klas ?? '-',
-                        'jam_keluar' => $row->jamKeluar->jam ?? '-',
-                        'jam_kembali' => $row->jamKembali->jam ?? '-',
+                        'kelas' => $row->siswa->kelas ?? '-',
+                        'email' => $row->email,
+                        'no_hp' => $row->no_hp,
                         'tanggal' => $row->created_at,
                         'guru' => $row->guru->username ?? '-',
                         'gurpik' => $row->guruPiket->gurpi ?? '-',

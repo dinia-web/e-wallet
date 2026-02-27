@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 class UserController extends Controller
 {
     public function index(Request $request)
-    {
+    {   
         $limit = $request->limit ?? 5;
 
         $users = User::when($request->search, function ($query) use ($request) {

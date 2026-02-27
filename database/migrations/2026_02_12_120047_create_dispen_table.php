@@ -14,7 +14,7 @@
 
                 $table->integer('nis'); // INT(11)
                 $table->string('nama'); // VARCHAR(255)
-                $table->unsignedInteger('kelas');
+                $table->string('kelas');
 
                 $table->string('email'); // VARCHAR(255)
 
@@ -43,7 +43,6 @@
                 $table->timestamps();
 
                 // INDEXES
-                $table->index('kelas');
                 $table->index('gurpi');
                 $table->index('approved_by_admin');
                 $table->index('approved_by_guru');
@@ -51,12 +50,6 @@
                 $table->foreign('id_guru')
                     ->references('id_user')
                     ->on('users')
-                    ->onDelete('cascade');
-
-                // FK kelas
-                $table->foreign('kelas')
-                    ->references('id_kelas')
-                    ->on('kelas')
                     ->onDelete('cascade');
 
                 // FK approved admin

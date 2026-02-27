@@ -8,14 +8,16 @@ use Illuminate\Http\Request;
 class GurpikController extends Controller
 {   
     public function index(Request $request)
-{
+{   $limit = $request->get('limit', 5); // default 5
     $search = $request->input('search');
 
     $gurpik = Gurpik::when($search, function ($query, $search) {
-                    $query->where('gurpi', 'like', "%{$search}%");
+                $query->where(function ($q) use ($search) {
+                    $q->where('gurpi', 'like', "%{$search}%");
+                    });
                 })
                 ->orderBy('id_guru', 'asc')
-                ->paginate(5)
+                ->paginate($limit)
                 ->withQueryString(); // biar query search tetap ada saat pindah halaman
 
     return view('gurpik.index', compact('gurpik'));

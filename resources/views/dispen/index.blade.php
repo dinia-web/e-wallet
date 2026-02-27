@@ -31,12 +31,16 @@
                 </select>
                 <label>entries</label>
             </div>
+        <form method="GET" class="search">
+            <input type="hidden" name="all" value="{{ request('all') }}">
 
-            <form method="GET" class="search">
-                <label>Search:</label>
-                <input type="text" name="search" value="{{ request('search') }}">
-                <button type="submit">Cari</button>
-            </form>
+            <label>Search:</label>
+            <input type="text" name="search" 
+                value="{{ request('search') }}" 
+                placeholder="Cari data...">
+
+            <button type="submit">Cari</button>
+        </form>
 
         </div>
 
@@ -65,8 +69,7 @@
                         </td>
                         <td>{{ $d->nis }}</td>
                         <td>{{ $d->nama }}</td>
-
-                        <td>{{ $d->kelasRel->klas ?? '-' }}</td>
+                        <td>{{ $d->kelas ?? '-' }}</td>
                         <td>{{ $d->guru->username ?? '-' }}</td>
 
                             <td>
@@ -113,7 +116,7 @@
             </span>
 
             <div class="pagination-controls">
-                {{ $dispen->links() }}
+                {{ $dispen->appends(request()->query())->links() }}
             </div>
         </div>
         @endif

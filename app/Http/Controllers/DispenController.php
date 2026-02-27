@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\DispenStatusMail;
 use App\Models\DispenDetail;
-
+use App\Models\Siswa;
 
 class DispenController extends Controller
 {
@@ -21,7 +21,6 @@ public function index(Request $request)
     $user = auth()->user();
     $showAll = $request->all == 'true';
    $query = Dispen::with([
-    'kelasRel',
     'guru'
 ]);
 
@@ -66,52 +65,65 @@ if (!$showAll) {
 
 
     // SIMPAN DATA
-  public function store(Request $request)
+ public function store(Request $request)
 {   
     $request->validate([
-        'nis' => 'required|numeric',
-        'nama' => 'required|string',
+    'nis' => 'required|numeric|exists:siswa,nis',
+    'nis_tambahan' => 'array|max:10',
+    'nis_tambahan.*' => 'nullable|numeric|exists:siswa,nis',
 
-        'nis_tambahan' => 'array|max:10',
-        'nama_tambahan' => 'array|max:10',
+    'email' => 'required|email',
+    'no_hp' => 'required|numeric|digits_between:10,15',
 
-        'kelas' => 'required',
-        'email' => 'required|email',
-        'id_guru' => 'required|exists:users,id_user',
-        'alasan' => 'required|string'
-    ]);
+    'id_guru' => 'required|exists:users,id_user',
+    'alasan' => 'required|string'
+]);
 
-    // 🔹 simpan data utama
+    // 🔥 Ambil data siswa utama
+    $siswa = Siswa::where('nis', $request->nis)->first();
+
+    // 🔹 Simpan data utama
     $dispen = Dispen::create([
-        'nis' => $request->nis,
-        'nama' => $request->nama,
-        'kelas' => $request->kelas,
-        'email' => $request->email,
-        'id_guru' => $request->id_guru,
-        'alasan' => $request->alasan,
-        'status' => 'dalam proses',
-        'admin_action' => null,
-        'guru_action' => null,
-        'approved_by_admin' => null,
-        'approved_by_guru' => null,
-        'rejection_reason' => null
-    ]);
+    'nis' => $siswa->nis,
+    'nama' => $siswa->nama,
+    'kelas' => $siswa->kelas,
+    'email' => $request->email,
+    'no_hp' => $request->no_hp,
+    'id_guru' => $request->id_guru,
+    'alasan' => $request->alasan,
+    'status' => 'dalam proses',
+    'admin_action' => null,
+    'guru_action' => null,
+    'approved_by_admin' => null,
+    'approved_by_guru' => null,
+    'rejection_reason' => null
+]);
+    // 🔥 Simpan siswa tambahan
+   if ($request->nis_tambahan) {
+    foreach ($request->nis_tambahan as $nisTambahan) {
 
-    // 🔥 simpan siswa tambahan
-    if ($request->nama_tambahan) {
-        foreach ($request->nama_tambahan as $i => $nama) {
+        if ($nisTambahan) {
 
-            if (!empty($nama) && !empty($request->nis_tambahan[$i])) {
+            $siswaTambahan = Siswa::where('nis', $nisTambahan)->first();
+
+            if ($siswaTambahan) {
+
+                // 🔥 CEK KELAS
+                if ($siswaTambahan->kelas !== $siswa->kelas) {
+                    return back()->withErrors([
+                        'nis_tambahan' => 'Siswa tambahan harus dari kelas yang sama.'
+                    ])->withInput();
+                }
 
                 DispenDetail::create([
                     'id_dispen' => $dispen->id_dispen,
-                    'nis' => $request->nis_tambahan[$i],
-                    'nama' => $nama
+                    'nis' => $siswaTambahan->nis,
+                    'nama' => $siswaTambahan->nama
                 ]);
-
             }
         }
     }
+}
 
     return redirect('/auth/dispen')
         ->with('success','Data berhasil dikirim');
@@ -119,29 +131,31 @@ if (!$showAll) {
 
 public function show($id)
 {
-    $data = DB::table('dispen as d')
-        ->leftJoin('kelas as k', 'd.kelas', '=', 'k.id_kelas')
-        ->leftJoin('users as u', 'd.id_guru', '=', 'u.id_user')
-        ->where('d.id_dispen', $id)
-        ->select(
-            'd.*',
-            'k.klas as kelas',
-            'u.username as guru'
-        )
-        ->first();
-    $detail = DB::table('dispen_detail')
-    ->where('id_dispen', $id)
-    ->get();
+    $data = Dispen::with(['kelasRel','guru'])
+        ->findOrFail($id);
+
+    $detail = DispenDetail::where('id_dispen', $id)->get();
     $gurpik = DB::table('gurpik')->get();
 
-    if (!$data) {
-        abort(404);
-    }
-
     return view('dispen.detail', compact('data','gurpik','detail'));
-
 }
 
+public function getSiswa($nis)
+{
+    $siswa = \App\Models\Siswa::where('nis', $nis)->first();
+
+    if ($siswa) {
+        return response()->json([
+            'status' => 'success',
+            'nama'   => $siswa->nama,
+            'kelas'  => $siswa->kelas
+        ]);
+    }
+
+    return response()->json([
+        'status' => 'error'
+    ]);
+}
 public function destroy($id)
 {
     Dispen::where('id_dispen', $id)->delete();
@@ -154,9 +168,9 @@ public function destroy($id)
    private function updateStatus($data)
 {   
     // load relasi biar tidak jadi object mentah
-$data->load(['kelasRel','guru', 'guruPiket']);
+$data->load(['guru', 'guruPiket']);
 // mapping ke string (🔥 ini kunci utama)
-$kelasNama = optional($data->kelasRel)->klas ?? '-';
+$kelasNama = $data->kelas ?? '-';
 $guruNama = optional($data->guru)->username ?? '-';
 $guruPiketNama = optional($data->guruPiket)->gurpi ?? '-';
     if (!empty($data->admin_action) && !empty($data->guru_action)) {

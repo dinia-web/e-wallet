@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Dispensasi</title>
-    <link rel="icon" href="{{ asset('images/logo.png') }}">
+    <title>Si Walet</title>
+    <link rel="icon" href="{{ asset('images/y.png') }}">
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
@@ -12,7 +12,7 @@
 
 <div class="login-container">
     <div class="img">
-        <img src="{{ asset('images/2.png') }}" alt="Logo">
+        <img src="{{ asset('images/y.png') }}" alt="Logo">
     </div>
     <hr>
     <h4>Form Login</h4>
@@ -57,7 +57,7 @@
 </div>
 
 <div class="right-section">
-    <div class="header">E-Dispensasi</div>
+    <div class="header">Si Walet</div>
     <div class="content">
         <h2>INFORMASI</h2>
         <hr>
