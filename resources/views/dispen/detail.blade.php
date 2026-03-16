@@ -12,11 +12,17 @@
 
     {{-- ✅ HEADER SISWA + BUTTON --}}
     <div class="section-header">
-        <h3>👨‍🎓 Data Siswa Dispensasi</h3>
+        <h3>👨‍🎓 Data Murid Dispensasi</h3>
 
-        <a href="{{ route('dispen.index') }}" class="btn-back">
+        @if(auth()->user()->role == 'siswa')
+        <a href="{{ route('siswa.dispen.index') }}" class="btn-back">
+        ← Kembali
+        </a>
+        @else
+        <a href="{{ route('dispen.index', request()->query()) }}" class="btn-back">
             ← Kembali
         </a>
+        @endif
     </div>
 
     {{-- ✅ TABEL GABUNGAN SISWA --}}
@@ -27,36 +33,30 @@
                     <th>No</th>
                     <th>Nama</th>
                     <th>NIS</th>
-                    <th>Kelas</th>
                     <th>Keperluan</th>
                     <th>Keterangan</th>
                 </tr>
             </thead>
             <tbody>
-
-                {{-- 🔥 SISWA UTAMA --}}
-                <tr class="utama">
-                    <td>1</td>
-                    <td>{{ $data->nama }}</td>
-                    <td>{{ $data->nis }}</td>
-                    <td>{{ $data->kelas }}</td>
-                    <td>{{ $data->alasan }}</td>
-                    <td><span class="badge-utama">Pengaju</span></td>
-                </tr>
-
-                {{-- 🔥 SISWA TAMBAHAN --}}
                 @foreach($detail as $i => $d)
-                <tr>
-                    <td>{{ $i + 2 }}</td>
+                <tr class="{{ $i == 0 ? 'utama' : '' }}">
+                    <td>{{ $i + 1 }}</td>
                     <td>{{ $d->nama }}</td>
                     <td>{{ $d->nis }}</td>
-                    <td>{{ $d->siswa->kelas }}</td>
-                    <td>{{ '-' }}</td>
-                    <td><span class="badge-tambahan">Tambahan</span></td>
+
+                    {{-- keperluan untuk semua siswa --}}
+                    <td>{{ $data->alasan }}</td>
+
+                    {{-- keterangan --}}
+                    @if($i == 0)
+                        <td><span class="badge-utama">Pengaju</span></td>
+                    @else
+                        <td><span class="badge-tambahan">Tambahan</span></td>
+                    @endif
+
                 </tr>
                 @endforeach
-
-            </tbody>
+                </tbody>
         </table>
     </div>
 
@@ -66,18 +66,21 @@
     <h3>📚 Informasi Dispensasi</h3>
 
     <div class="info-grid">
+        <div><strong>Kelas:</strong> {{ optional($detail->first()?->siswa)->kelas ?? '-' }}</div>
         <div><strong>Guru Pengajar:</strong> {{ $data->guru->username }}</div>
+        <div><strong>Guru Piket:</strong> {{ optional($data->guruPiket)->gurpi ?? '-' }}</div>
         <div><strong>Email:</strong> {{ $data->email }}</div>
         <div><strong>No Hp:</strong> {{ $data->no_hp }}</div>
         {{-- ✅ STATUS --}}
         <div class="uy">
             <strong>Status:</strong><br>
-            <span class="status-badge {{ strtolower(str_replace(' ', '-', $data->status)) }}">
+            <span class="status-badge {{ strtolower(str_replace(' ', '', $data->status)) }}">
                 {{ ucfirst($data->status) }}
             </span>
         </div>
 
         {{-- ✅ AKSI --}}
+        @if(auth()->user()->role != 'siswa')
         <div class="aksi-box">
             <strong>Aksi:</strong><br><br>
             <div class="aksi-btn-group">
@@ -92,6 +95,7 @@
             @endif
         </div>
         </div>
+@endif
     </div>
 </div>
 

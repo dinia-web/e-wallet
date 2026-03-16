@@ -28,37 +28,52 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request)
+public function login(Request $request)
 {
     $request->validate([
         'username' => 'required',
-        'email' => 'required|email',
         'password' => 'required'
     ]);
 
-    // 1️⃣ Cek username dulu
     $user = User::where('username', $request->username)->first();
 
     if (!$user) {
         return back()->with('error', 'Username tidak ditemukan!');
     }
 
-    // 2️⃣ Cek email cocok atau tidak
-    if ($user->email !== $request->email) {
-        return back()->with('error', 'Email tidak sesuai dengan username!');
+    // jika admin atau guru harus cek email
+    if (in_array($request->role, ['admin','guru'])) {
+
+        if (!$request->email) {
+            return back()->with('error', 'Email wajib diisi!');
+        }
+
+        if ($user->email !== $request->email) {
+            return back()->with('error', 'Email tidak sesuai!');
+        }
+
     }
 
-    // 3️⃣ Cek password
+    // cek password
     if (!Hash::check($request->password, $user->password)) {
         return back()->with('error', 'Password salah!');
     }
 
-    // 4️⃣ Login jika semua benar
+    // cek akun siswa punya NIS
+    if ($user->role == 'siswa' && !$user->nis) {
+        return back()->with('error', 'Akun siswa belum terhubung dengan data siswa!');
+    }
+
     Auth::login($user, $request->remember);
 
-    $request->session()->regenerate();
+$request->session()->regenerate();
 
-    return redirect('/dashboard');
+// 🔥 redirect berdasarkan role
+if ($user->role == 'siswa') {
+    return redirect('/siswa/dashboard');
+}
+
+return redirect('/dashboard');
 }
 
 public function prosesLupaPassword(Request $request)

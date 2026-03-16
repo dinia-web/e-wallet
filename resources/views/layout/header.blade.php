@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Si Walet</title>
+    <title>Si WALET</title>
     <link rel="icon" href="{{ asset('images/y.png') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -17,15 +17,15 @@
 
     <div class="logo">
         <img src="{{ asset('images/y.png') }}" alt="Logo">
-        <span>Si Walet</span>
+        <span>Si WALET</span>
     </div>
 
     <div class="profile">
         <img id="navProfilePic"
-            src="{{ Auth::user()->foto 
-                ? asset('storage/foto/'.Auth::user()->foto) 
-                : asset('images/default.png') }}"
-            class="profile-pic">
+        src="{{ Auth::user()->foto 
+        ? asset('storage/foto/'.Auth::user()->foto) 
+        : 'https://ui-avatars.com/api/?name='.Auth::user()->username }}"
+        class="profile-pic">
     </div>
 
 </div>

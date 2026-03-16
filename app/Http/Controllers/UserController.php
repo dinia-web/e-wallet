@@ -21,18 +21,21 @@ class UserController extends Controller
             })
             ->orderBy('id_user', 'asc')
             ->paginate($limit)
+            ->onEachSide(1)
             ->withQueryString();
+            
 
         return view('users.index', compact('users'));
     }
 
 public function store(Request $request)
 {
-    $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
         'username' => 'required|string|max:255|unique:users,username',
         'email' => 'required|email|unique:users,email',
         'password' => 'required|min:6|confirmed',
-        'role' => 'required|in:admin,guru',
+        'role' => 'required|in:admin,guru,siswa',
+        'nis' => 'required_if:role,siswa|exists:siswa,nis|unique:users,nis',
         'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
     ], [
         'username.required' => 'Username wajib diisi',
@@ -59,11 +62,14 @@ public function store(Request $request)
     }
 
     User::create([
+        'nis' => $request->role == 'siswa' ? $request->nis : null,
         'username' => $request->username,
         'email' => $request->email,
         'password' => Hash::make($request->password),
         'role' => $request->role,
-        'foto' => $fotoPath
+        'foto' => $fotoPath,
+        'is_walikelas' => $request->role == 'guru' ? ($request->has('is_walikelas') ? 1 : 0) : 0,
+
     ]);
 
     return response()->json([
@@ -79,8 +85,11 @@ public function store(Request $request)
         $request->validate([
             'username' => 'required',
             'email' => 'required|email|unique:users,email,' . $id . ',id_user',
-            'role' => 'required',
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+            'role' => 'required|in:admin,guru,siswa',
+            'nis' => 'required_if:role,siswa|exists:siswa,nis|unique:users,nis,' . $id . ',id_user',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'password' => 'nullable|min:6|confirmed',
+            
         ]);
 
         if ($request->hasFile('foto')) {
@@ -93,9 +102,11 @@ public function store(Request $request)
             $user->foto = $request->file('foto')->store('users', 'public');
         }
 
-        $user->username = $request->username;
-        $user->email = $request->email;
-        $user->role = $request->role;
+            $user->username = $request->username;
+            $user->email = $request->email;
+            $user->role = $request->role;
+            $user->nis = $request->role == 'siswa' ? $request->nis : null;
+            $user->is_walikelas = $request->role == 'guru' ? ($request->has('is_walikelas') ? 1 : 0) : 0;
 
         if ($request->password) {
             $user->password = Hash::make($request->password);

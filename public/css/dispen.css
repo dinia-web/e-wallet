@@ -121,6 +121,24 @@
             cursor: pointer;
             font-weight: bold;
         }
+        /* ===== BUTTON REGISTER STYLE KIRIM ===== */
+        .btn-register {
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #3b5bdb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .btn-register:hover {
+            background-color: #1c3faa;
+        }
 
         .klas button:hover {
             background-color: #1c3faa;
@@ -210,4 +228,156 @@
 
 .btn-tambah:hover {
     background: #2f4bcf;
+}
+
+/* ===== CUSTOM SELECT ===== */
+.custom-select {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    background-color: #f8fafc;
+    transition: all 0.2s ease;
+    appearance: none;
+    cursor: pointer;
+}
+
+/* Hover */
+.custom-select:hover {
+    border-color: #3b5bdb;
+}
+
+/* Focus */
+.custom-select:focus {
+    outline: none;
+    border-color: #3b5bdb;
+    box-shadow: 0 0 0 3px rgba(59, 91, 219, 0.15);
+    background-color: #fff;
+}
+
+/* Tambahkan icon panah custom */
+.custom-select {
+    background-image: url("data:image/svg+xml;utf8,<svg fill='%2364748b' height='20' viewBox='0 0 20 20' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M5 7l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+}
+/* ===== SELECT2 CUSTOM STYLE ===== */
+
+.select2-container .select2-selection--single {
+    height: 42px !important;
+    border-radius: 8px !important;
+    border: 1px solid #cbd5e1 !important;
+    background-color: #f8fafc !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 0 10px !important;
+    transition: all 0.2s ease !important;
+}
+
+/* Hover */
+.select2-container .select2-selection--single:hover {
+    border-color: #3b5bdb !important;
+}
+
+/* Focus */
+.select2-container--focus .select2-selection--single {
+    border-color: #3b5bdb !important;
+    box-shadow: 0 0 0 3px rgba(59, 91, 219, 0.15) !important;
+    background-color: #fff !important;
+}
+
+/* Text di dalam select */
+.select2-selection__rendered {
+    line-height: normal !important;
+    font-size: 14px !important;
+    color: #334155 !important;
+}
+
+/* Panah dropdown */
+.select2-selection__arrow {
+    height: 100% !important;
+}
+
+/* ===== PREVIEW SISWA MODE KELOMPOK ===== */
+
+#previewSiswa {
+    margin-top: 18px;
+    padding: 12px;
+    background: #f8fafc;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+/* Scroll lebih halus */
+#previewSiswa::-webkit-scrollbar {
+    width: 6px;
+}
+#previewSiswa::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+.preview-title {
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #3b5bdb;
+    font-size: 14px;
+}
+
+.preview-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.preview-row input:first-child {
+    flex: 1; /* NIS kecil */
+}
+
+.preview-row input:last-child {
+    flex: 2; /* Nama lebih panjang */
+}
+
+.preview-row input {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    background-color: #ffffff;
+    font-size: 13px;
+    color: #334155;
+}
+
+textarea {
+    width: 100%;          
+    padding: 10px;      
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    resize: vertical;    
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+}
+
+#walikelasBox {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* jarak antara checkbox dan teks */
+    margin-top: 10px;
+}
+
+#walikelasBox label {
+    font-weight: bold;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+#walikelasBox input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+    margin: 0; /* hilangkan margin default */
 }

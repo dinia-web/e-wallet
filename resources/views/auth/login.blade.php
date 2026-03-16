@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Si Walet</title>
+    <title>Si WALET</title>
     <link rel="icon" href="{{ asset('images/y.png') }}">
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -16,54 +16,60 @@
     </div>
     <hr>
     <h4>Form Login</h4>
+    @php
+$role = request('role');
+@endphp
+   <form method="POST">
+@csrf
 
-    <form method="POST">
-        @csrf
+<input type="hidden" name="role" value="{{ $role }}">
 
-        <h5>Username</h5>
-        <input type="text" name="username"
-               value="{{ Cookie::get('username') }}"
-               placeholder="Username" required>
+<h5>Username</h5>
+<input type="text" name="username"
+       value="{{ Cookie::get('username') }}"
+       placeholder="Username" required>
 
-        <h5>Email</h5>
-        <input type="text" name="email" placeholder="Email" required>
+@if($role == 'admin' || $role == 'guru')
+<h5>Email</h5>
+<input type="text" name="email" placeholder="Email" required>
+@endif
 
-        <h5>Password</h5>
-        <div class="password">
-            <input type="password" name="password" id="password" required>
-            <i class="fa-solid fa-eye-slash" id="togglePassword"></i>
-        </div>
+<h5>Password</h5>
+<div class="password">
+<input type="password" name="password" id="password" required>
+<i class="fa-solid fa-eye-slash" id="togglePassword"></i>
+</div>
 
-        @if(session('error'))
-            <p class="error-msg">{{ session('error') }}</p>
-        @endif
+@if(session('error'))
+<p class="error-msg">{{ session('error') }}</p>
+@endif
 
-        <div class="remember-forgot">
-            <label class="remember">
-                <input type="checkbox" name="remember">
-                <span>Remember me</span>
-            </label>
+<div class="remember-forgot">
+<label class="remember">
+<input type="checkbox" name="remember">
+<span>Remember me</span>
+</label>
 
-            <button type="button" class="forgot-btn" onclick="openForgotPasswordModal()">
-                <i class="fa-solid fa-key"></i>
-                Lupa Password?
-            </button>
-        </div>
+<button type="button" class="forgot-btn" onclick="openForgotPasswordModal()">
+<i class="fa-solid fa-key"></i>
+Lupa Password?
+</button>
+</div>
 
-        <button type="submit" class="btn">Masuk</button>
+<button type="submit" class="btn">Masuk</button>
 
-    </form>
+</form>
     <hr>
 </div>
 
 <div class="right-section">
-    <div class="header">Si Walet</div>
+    <div class="header">Si WALET</div>
     <div class="content">
         <h2>INFORMASI</h2>
         <hr>
         <p>
             Aplikasi surat izin keluar lingkungan sekolah berbasis web adalah
-            sebuah sistem yang dibuat untuk memudahkan siswa dalam mengajukan
+            sebuah sistem yang dibuat untuk memudahkan murid dalam mengajukan
             permohonan izin keluar lingkungan sekolah kepada pihak sekolah.
         </p>
     </div>

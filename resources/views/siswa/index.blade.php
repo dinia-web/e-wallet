@@ -5,13 +5,13 @@
 
     <div class="page-title">
         <i class="fas fa-user-graduate"></i>
-        <h1>Siswa</h1>
+        <h1>Murid</h1>
     </div>
 
     <div class="card1">
 
         <div class="header">
-            <h2>List Siswa</h2>
+            <h2>List Murid</h2>
             <button class="btn btn-primary" onclick="openModalSiswa()">
                 <i class="fas fa-plus"></i> Tambah Data
             </button>
@@ -54,7 +54,9 @@
                 <tbody>
                     @foreach($siswa as $i => $s)
                     <tr>
-                        <td>{{ $siswa->firstItem() + $i }}</td>
+                        <td>
+                        {{ method_exists($siswa,'firstItem') ? $siswa->firstItem() + $i : $loop->iteration }}
+                        </td>                        
                         <td>{{ $s->nis }}</td>
                         <td>{{ $s->nama }}</td>
                         <td>{{ $s->kelas }}</td>
@@ -84,16 +86,24 @@
 
         <!-- PAGINATION -->
         <div class="pagination">
-            <span>
-                Showing {{ $siswa->firstItem() }} to {{ $siswa->lastItem() }} 
-                of {{ $siswa->total() }} entries
-            </span>
 
-            <div class="pagination-controls">
-                {{ $siswa->links() }}
-            </div>
-        </div>
+@if(method_exists($siswa,'firstItem'))
+    <span>
+        Showing {{ $siswa->firstItem() }} to {{ $siswa->lastItem() }} 
+        of {{ $siswa->total() }} entries
+    </span>
 
+    <div class="pagination-controls">
+        {{ $siswa->links() }}
+    </div>
+
+@else
+    <span>
+        Showing {{ $siswa->count() }} entries
+    </span>
+@endif
+
+</div>
     </div>
 </div>
 
@@ -102,7 +112,7 @@
     <div class="modal-content">
 
         <div class="modal-header">
-            <h3>Tambah Siswa</h3>
+            <h3>Tambah Murid</h3>
             <span class="close" onclick="closeModalSiswa()">&times;</span>
         </div>
 
@@ -138,7 +148,7 @@
     <div class="modal-content">
 
         <div class="modal-header">
-            <h3>Edit Siswa</h3>
+            <h3>Edit Murid</h3>
             <span class="close" onclick="closeEditModalSiswa()">&times;</span>
         </div>
 

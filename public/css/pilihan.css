@@ -114,13 +114,95 @@
             background-color: rgb(134, 202, 253);
         }
 
-        @media (max-width: 400px) {
-            .container {
-                padding: 20px;
-            }
+/* ================= RESPONSIVE ================= */
 
-            .login-buttons a {
-                font-size: 14px;
-                padding: 10px;
-            }
-        }
+/* Tablet */
+@media (max-width: 992px) {
+
+    .card{
+        max-width: 400px;
+        padding: 32px 38px;
+    }
+
+    .logo-wrapper img{
+        width:120px;
+    }
+
+    p{
+        font-size:15px;
+    }
+
+}
+
+/* Mobile besar */
+@media (max-width: 768px) {
+
+    body{
+        padding:20px;
+    }
+
+    .container{
+        width:100%;
+        max-width:420px;
+    }
+
+    .card{
+        max-width:100%;
+        padding:32px;
+        border-radius:18px;
+    }
+
+    .logo-wrapper img{
+        width:115px;
+    }
+
+    p{
+        font-size:15px;
+    }
+
+    .login-buttons a{
+        font-size:16px;
+        padding:13px;
+    }
+
+}
+
+/* Mobile kecil */
+@media (max-width: 480px) {
+
+    .container{
+        padding:25px;
+    }
+
+    .card{
+        padding:28px;
+        max-width:360px;
+    }
+
+    .logo-wrapper img{
+        width:105px;
+    }
+
+    p{
+        font-size:14px;
+    }
+
+}
+
+/* HP sangat kecil */
+@media (max-width: 360px) {
+
+    .card{
+        padding:24px;
+    }
+
+    .logo-wrapper img{
+        width:95px;
+    }
+
+    .login-buttons a{
+        font-size:14px;
+        padding:11px;
+    }
+
+}

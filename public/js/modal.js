@@ -33,9 +33,41 @@ window.addEventListener("click", function(event) {
 
 // Auto buka jika ada error/success
 document.addEventListener("DOMContentLoaded", function() {
-    if (window.hasResetMessage) {
-        openForgotPasswordModal();
+
+    // Tutup loading jika ada
+    if (typeof Swal !== "undefined") {
+        Swal.close();
     }
+
+    if (typeof Swal !== "undefined" && window.appConfig) {
+
+        if (window.appConfig.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: window.appConfig.success,
+                timer: 2000,
+                showConfirmButton: false
+            });
+        }
+
+        if (window.appConfig.error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text: window.appConfig.error
+            });
+        }
+
+        if (window.appConfig.errors && window.appConfig.errors.length > 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi Kesalahan',
+                html: window.appConfig.errors.join("<br>")
+            });
+        }
+    }
+
 });
 
 function toggleSidebar() {
@@ -172,11 +204,6 @@ function closeEditModal() {
     if (modal) modal.style.display = "none";
 }
 
-function changeLimit(limit) {
-    let url = new URL(window.location.href);
-    url.searchParams.set('limit', limit);
-    window.location.href = url.toString();
-}
 
 // ===============================
 // USER MANAGEMENT
@@ -215,12 +242,7 @@ function closeEditModalUser() {
     if (modal) modal.style.display = "none";
 }
 
-// Change Limit Pagination
-function changeLimit(limit) {
-    const url = new URL(window.location.href);
-    url.searchParams.set('limit', limit);
-    window.location.href = url.toString();
-}
+
 
 function openmodal(id){
     document.getElementById(id).style.display = 'flex';
@@ -365,4 +387,136 @@ function openEditModalSiswa(nis, nama, kelas) {
 function closeEditModalSiswa() {
     const modal = document.getElementById("modalEditSiswa");
     if (modal) modal.style.display = "none";
+}
+
+function toggleSubmenu() {
+    document.getElementById("submenu-manajemen").classList.toggle("show");
+}
+
+
+function changeLimit(limit){
+    let url = new URL(window.location.href);
+    
+    url.searchParams.set('limit', limit); // set jumlah data
+    url.searchParams.set('page', 1); // reset ke page 1
+    
+    window.location.href = url.toString();
+}
+
+function toggleSubmenuPerizinan() {
+    document.getElementById('submenu-perizinan').classList.toggle('show');
+}
+
+function toggleSubmenuPengajuan() {
+    document.getElementById('submenu-pengajuan').classList.toggle('show');
+}
+function toggleSubmenuDispen() {
+    document.getElementById("submenu-dispen").classList.toggle("show");
+}
+
+//user//
+document.addEventListener("DOMContentLoaded", function(){
+
+    const form = document.getElementById("formTambahUser");
+
+    if(form){
+        form.addEventListener("submit", function(e){
+
+            e.preventDefault();
+
+            let formData = new FormData(form);
+
+            fetch("/users", {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                    "Accept": "application/json"
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+
+                let errorDiv = document.getElementById("errorMessage");
+                let errorText = document.getElementById("errorText");
+
+                if(data.status === false){
+
+                    errorDiv.style.display = "block";
+                    errorText.innerHTML = "";
+
+                    Object.values(data.errors).forEach(function(error){
+                        errorText.innerHTML += "• " + error[0] + "<br>";
+                    });
+
+                }else{
+
+                    errorDiv.style.display = "none";
+                    form.reset();
+                    closeModalUser();
+                    location.reload();
+                }
+
+            })
+            .catch(error => {
+                console.log("Fetch Error:", error);
+            });
+
+        });
+    }
+
+});
+
+function openEditModalUser(id, username, email, role, walikelas){
+
+    document.getElementById("editUsername").value = username;
+    document.getElementById("editEmail").value = email;
+    document.getElementById("editRole").value = role;
+
+    document.getElementById("formEditUser").action = "/users/" + id;
+
+    if(role === "guru"){
+        editWalikelasBox.style.display = "block";
+
+        if(walikelas == 1){
+            document.getElementById("editWalikelas").checked = true;
+        }else{
+            document.getElementById("editWalikelas").checked = false;
+        }
+
+    }else{
+        editWalikelasBox.style.display = "none";
+    }
+
+    document.getElementById("modalEditUser").style.display = "flex";
+}
+// ===============================
+// TAMBAH USER
+// ===============================
+const roleSelect = document.getElementById("roleSelect");
+const walikelasBox = document.getElementById("walikelasBox");
+
+if(roleSelect && walikelasBox){
+    roleSelect.addEventListener("change", function(){
+        if(this.value === "guru"){
+            walikelasBox.style.display = "block";
+        }else{
+            walikelasBox.style.display = "none";
+        }
+    });
+}
+// ===============================
+// EDIT USER
+// ===============================
+const editRole = document.getElementById("editRole");
+const editWalikelasBox = document.getElementById("editWalikelasBox");
+
+if(editRole && editWalikelasBox){
+    editRole.addEventListener("change", function(){
+        if(this.value === "guru"){
+            editWalikelasBox.style.display = "block";
+        }else{
+            editWalikelasBox.style.display = "none";
+        }
+    });
 }

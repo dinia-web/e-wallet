@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Si Walet</title>
+    <title>Si WALET</title>
     <link rel="icon" href="{{ asset('images/y.png') }}">
     <meta http-equiv="refresh" content="5;url={{ url('/pilihan') }}">
     <link rel="stylesheet" href="{{ asset('css/splash.css') }}">
@@ -18,7 +18,7 @@
             <h3>Website Administrasi Layanan Izin Terpadu</h3>
 
             <p class="description">
-                Perizinan Siswa Berbasis Website untuk Mewujudkan 
+                Perizinan Murid Berbasis Website untuk Mewujudkan 
                 Transformasi <br> Digital Sekolah di SMKN 1 KEBUMEN.
             </p>
 

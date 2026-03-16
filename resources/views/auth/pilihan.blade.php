@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Si Walet</title>
+    <title>Si WALET</title>
     <link rel="icon" href="{{ asset('images/y.png') }}">
     <link rel="stylesheet" href="{{ asset('css/pilihan.css') }}">
 </head>
@@ -17,7 +17,7 @@
         <div class="login-buttons">
             <a href="{{ url('/login?role=admin') }}" class="admin-btn">Admin</a>
             <a href="{{ url('/login?role=guru') }}" class="guru-btn">Guru</a>
-            <a href="{{ url('/auth/dispen') }}" class="siswa-btn">Siswa</a>
+            <a href="{{ url('/login?role=siswa') }}" class="siswa-btn">Murid</a>
         </div>
     </div>
 </div>

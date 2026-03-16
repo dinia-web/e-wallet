@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Si Walet</title>
+    <title>Si WALET</title>
     <link rel="icon" href="{{ asset('images/y.png') }}">
     <link rel="stylesheet" href="{{ asset('css/dispen.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -13,7 +13,7 @@
 
 <div class="header">
     <img src="{{ asset('images/y.png') }}" alt="Logo E-Wallet">
-    <h1>Si Walet</h1>
+    <h1>Si WALET</h1>
 </div>
 
 <div class="container">
@@ -22,10 +22,33 @@
     <form method="POST" action="{{ url('/auth/dispen') }}">
     @csrf
 
+    <label>Tipe Dispensasi</label>
+    <select name="tipe" id="tipeDispen" class="custom-select" required>
+        <option value="individu">Individu</option>
+        <option value="kelompok">Kelompok (1 Kelas)</option>
+    </select>
+
+    <div id="kelasKelompokWrapper" style="display:none;">
+        <label>Kelas</label>
+        <select name="kelas_kelompok" id="kelasKelompok" class="custom-select">
+            <option value="">Pilih Kelas</option>
+            @foreach($kelas as $k)
+                <option value="{{ $k->kelas }}">
+                    {{ $k->kelas }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+
+    <div id="previewSiswa" style="display:none;"></div>
+
+    <div id="individuWrapper">
+
+    <!-- NIS + Nama utama -->
     <div class="form-row">
         <div class="form-group">
             <label>NIS</label>
-            <input type="number" name="nis" id="nisInput" placeholder="NIS" required>
+            <input type="number" name="nis" id="nisInput" placeholder="NIS">
         </div>
 
         <div class="form-group">
@@ -33,11 +56,17 @@
             <input type="text" id="namaSiswa" placeholder="Nama Lengkap" readonly>
         </div>
     </div>
+
+    <!-- TAMBAHAN SISWA MUNCUL DI SINI -->
     <div id="namaTambahanWrapper"></div>
 
-    <!-- Auto Fill Kelas -->
-    <label>Kelas</label>
-    <input type="text" id="kelasSiswa" placeholder="Kelas" readonly>
+    <!-- Kelas tetap di bawah -->
+    <div >
+        <label>Kelas</label>
+        <input type="text" id="kelasSiswa" placeholder="Kelas" readonly>
+    </div>
+
+</div>
 
      <!-- Email -->
     <label>Email</label>
@@ -210,6 +239,93 @@ $(document).ready(function() {
         allowClear: true,
         width: '100%'
     });
+
+
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    const tipeSelect = document.getElementById("tipeDispen");
+    const individuWrapper = document.getElementById("individuWrapper");
+    const kelasWrapper = document.getElementById("kelasKelompokWrapper");
+    const tombolTambah = document.getElementById("tmbah");
+    const preview = document.getElementById("previewSiswa");
+    const kelasSelect = document.getElementById("kelasKelompok");
+
+    // ===== Sembunyikan preview saat awal =====
+    if (preview) {
+        preview.style.display = "none";
+    }
+
+    // ===== TOGGLE MODE =====
+    tipeSelect.addEventListener("change", function() {
+
+        if (this.value === "kelompok") {
+
+            individuWrapper.style.display = "none";
+            kelasWrapper.style.display = "block";
+            tombolTambah.style.display = "none";
+
+        } else {
+
+            individuWrapper.style.display = "block";
+            kelasWrapper.style.display = "none";
+            tombolTambah.style.display = "inline-block";
+
+        }
+
+        // Reset preview
+        preview.innerHTML = "";
+        preview.style.display = "none";
+        kelasSelect.value = "";
+
+    });
+
+    // ===== PREVIEW SISWA PER KELAS =====
+    kelasSelect.addEventListener("change", function() {
+
+        let kelas = this.value;
+
+        if (!kelas) {
+            preview.innerHTML = "";
+            preview.style.display = "none";
+            return;
+        }
+
+        fetch("/get-siswa-kelas/" + kelas)
+            .then(res => res.json())
+            .then(data => {
+
+                if (!data.length) {
+                    preview.style.display = "none";
+                    return;
+                }
+
+                let html = `
+                    <div class="preview-title">
+                        Daftar Siswa Kelas ${kelas}
+                    </div>
+                `;
+
+                data.forEach(s => {
+                    html += `
+                        <div class="preview-row">
+                            <input type="text" value="${s.nis}" readonly>
+                            <input type="text" value="${s.nama}" readonly>
+                        </div>
+                    `;
+                });
+
+                preview.innerHTML = html;
+                preview.style.display = "block";
+
+            })
+            .catch(err => {
+                console.error(err);
+                preview.style.display = "none";
+            });
+    });
+
 });
 </script>
 </body>

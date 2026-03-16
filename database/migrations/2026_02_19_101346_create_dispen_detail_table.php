@@ -25,7 +25,11 @@ return new class extends Migration
         ->references('id_dispen')
         ->on('dispen')
         ->onDelete('cascade');
-});
+    $table->foreign('nis')
+        ->references('nis')
+        ->on('siswa')
+        ->onDelete('cascade');
+    });
 
     }
 

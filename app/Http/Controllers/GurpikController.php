@@ -18,6 +18,7 @@ class GurpikController extends Controller
                 })
                 ->orderBy('id_guru', 'asc')
                 ->paginate($limit)
+                ->onEachSide(1)
                 ->withQueryString(); // biar query search tetap ada saat pindah halaman
 
     return view('gurpik.index', compact('gurpik'));

@@ -108,13 +108,76 @@ body {
     50% { transform: translateY(-8px); }
 }
 
-/* Responsive */
-@media (max-width: 480px) {
-    .card {
-        padding: 25px;
+/* ================= RESPONSIVE ================= */
+
+/* Tablet */
+@media (max-width: 992px) {
+
+    .card{
+        padding: 30px 35px;
+        border-radius: 18px;
     }
 
-    .logo {
-        width: 85px;
+    .logo{
+        width:110px;
     }
+
+    .card h3{
+        font-size:18px;
+    }
+
+    .description{
+        font-size:14px;
+    }
+
+}
+
+/* Mobile besar */
+@media (max-width: 768px) {
+
+    body{
+        padding:20px;
+    }
+
+    .card{
+        padding:30px;
+        width:100%;
+        max-width:420px; /* card lebih besar */
+    }
+
+    .logo{
+        width:110px;
+    }
+
+    .card h3{
+        font-size:20px;
+    }
+
+    .description{
+        font-size:15px;
+    }
+
+}
+
+/* Mobile kecil */
+@media (max-width: 480px) {
+
+    .card{
+        padding:28px;
+        width:100%;
+        max-width:360px; /* card tetap besar */
+    }
+
+    .logo{
+        width:100px;
+    }
+
+    .card h3{
+        font-size:18px;
+    }
+
+    .description{
+        font-size:14px;
+    }
+
 }

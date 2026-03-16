@@ -16,46 +16,72 @@ class DispenController extends Controller
 
 public function index(Request $request)
 {
+    $user = auth()->user();
     $limit = $request->limit ?? 5;
     $search = $request->search ?? '';
-    $user = auth()->user();
     $showAll = $request->all == 'true';
-   $query = Dispen::with([
-    'guru'
-]);
 
-// Jika bukan selengkapnya → tetap filter hari ini
-if (!$showAll) {
-    $query->whereDate('created_at', now());
-}
+    $query = Dispen::with(['detail.siswa','guru']);
 
-
-    // 🔥 Kalau yang login guru → hanya tampil data miliknya
+    // =========================
+    // FILTER ROLE
+    // =========================
     if ($user->role == 'guru') {
+        // guru hanya melihat dispen yang diajar
         $query->where('id_guru', $user->id_user);
+
+        // jika guru ingin lihat semua → bisa pakai ?all=true
+        if (!$showAll) {
+            $query->whereDate('created_at', now());
+        }
+
+    } elseif ($user->role == 'siswa') {
+        // siswa hanya melihat dispen miliknya
+        $query->whereHas('detail', function ($q) use ($user) {
+            $q->where('nis', $user->nis);
+        });
+
+        // 🟢 siswa **tidak dibatasi tanggal**
+        // $showAll irrelevant → tampil semua
+    } else {
+        // admin
+        if (!$showAll) {
+            $query->whereDate('created_at', now());
+        }
     }
 
-    // 🔎 Search
+    // =========================
+    // SEARCH
+    // =========================
     $query->when($search, function ($q) use ($search) {
-        $q->where(function ($sub) use ($search) {
-            $sub->where('nama', 'like', "%$search%")
-                ->orWhere('nis', 'like', "%$search%");
+        $q->whereHas('detail', function ($sub) use ($search) {
+            $sub->where('nama','like',"%$search%")
+                ->orWhere('nis','like',"%$search%");
         });
     });
 
-    if ($showAll) {
-    $dispen = $query->orderByDesc('id_dispen')->get();
-} else {
-    $dispen = $query->orderByDesc('id_dispen')->paginate($limit);
-}
+    // =========================
+    // PAGINATION
+    // =========================
+    if ($user->role == 'siswa' || $showAll) {
+        // PAGINATION
+        $dispen = $query->orderByDesc('id_dispen')->paginate($limit);
+    } else {
+        $dispen = $query->orderByDesc('id_dispen')->paginate($limit);
+    }
 
     return view('dispen.index', compact('dispen','limit','search'));
 }
-
     // FORM INPUT
-   public function create()
+ public function create()
 {   
-    $kelas = DB::table('kelas')->get();
+    // ✅ Ambil kelas unik dari tabel siswa
+    $kelas = Siswa::select('kelas')
+                    ->whereNotNull('kelas')
+                    ->distinct()
+                    ->orderBy('kelas')
+                    ->get();
+
     $guru = DB::table('users')
                 ->where('role', 'guru')
                 ->get();
@@ -68,7 +94,12 @@ if (!$showAll) {
  public function store(Request $request)
 {   
     $request->validate([
-    'nis' => 'required|numeric|exists:siswa,nis',
+    'tipe' => 'required|in:individu,kelompok',
+
+    'nis' => 'required_if:tipe,individu|nullable|numeric|exists:siswa,nis',
+
+    'kelas_kelompok' => 'required_if:tipe,kelompok|nullable|string',
+
     'nis_tambahan' => 'array|max:10',
     'nis_tambahan.*' => 'nullable|numeric|exists:siswa,nis',
 
@@ -79,14 +110,13 @@ if (!$showAll) {
     'alasan' => 'required|string'
 ]);
 
-    // 🔥 Ambil data siswa utama
-    $siswa = Siswa::where('nis', $request->nis)->first();
+// 🔥 Ambil data siswa utama
+$siswa = Siswa::where('nis', $request->nis)->first();
 
-    // 🔹 Simpan data utama
-    $dispen = Dispen::create([
-    'nis' => $siswa->nis,
-    'nama' => $siswa->nama,
-    'kelas' => $siswa->kelas,
+// 🔹 Simpan header (tanpa nis/nama/kelas kalau sudah dihapus dari tabel)
+$dispen = Dispen::create([
+    'tipe' => $request->tipe,
+    'kelas_kelompok' => $request->kelas_kelompok,
     'email' => $request->email,
     'no_hp' => $request->no_hp,
     'id_guru' => $request->id_guru,
@@ -98,17 +128,38 @@ if (!$showAll) {
     'approved_by_guru' => null,
     'rejection_reason' => null
 ]);
-    // 🔥 Simpan siswa tambahan
-   if ($request->nis_tambahan) {
-    foreach ($request->nis_tambahan as $nisTambahan) {
 
-        if ($nisTambahan) {
+   if ($request->tipe === 'kelompok') {
 
-            $siswaTambahan = Siswa::where('nis', $nisTambahan)->first();
+    $siswaKelas = Siswa::where('kelas', $request->kelas_kelompok)->get();
 
-            if ($siswaTambahan) {
+    foreach ($siswaKelas as $siswa) {
+        DispenDetail::create([
+            'id_dispen' => $dispen->id_dispen,
+            'nis' => $siswa->nis,
+            'nama' => $siswa->nama
+        ]);
+    }
 
-                // 🔥 CEK KELAS
+} else {
+
+    // 🔥 MODE INDIVIDU
+    $siswa = Siswa::where('nis', $request->nis)->first();
+
+    DispenDetail::create([
+        'id_dispen' => $dispen->id_dispen,
+        'nis' => $siswa->nis,
+        'nama' => $siswa->nama
+
+    ]);
+
+    if ($request->nis_tambahan) {
+        foreach ($request->nis_tambahan as $nisTambahan) {
+
+            if ($nisTambahan) {
+
+                $siswaTambahan = Siswa::where('nis', $nisTambahan)->first();
+
                 if ($siswaTambahan->kelas !== $siswa->kelas) {
                     return back()->withErrors([
                         'nis_tambahan' => 'Siswa tambahan harus dari kelas yang sama.'
@@ -124,17 +175,16 @@ if (!$showAll) {
         }
     }
 }
-
     return redirect('/auth/dispen')
         ->with('success','Data berhasil dikirim');
 }
 
 public function show($id)
 {
-    $data = Dispen::with(['kelasRel','guru'])
+    $data = Dispen::with(['guru','detail.siswa','guruPiket'])
         ->findOrFail($id);
 
-    $detail = DispenDetail::where('id_dispen', $id)->get();
+    $detail = $data->detail;
     $gurpik = DB::table('gurpik')->get();
 
     return view('dispen.detail', compact('data','gurpik','detail'));
@@ -170,7 +220,8 @@ public function destroy($id)
     // load relasi biar tidak jadi object mentah
 $data->load(['guru', 'guruPiket']);
 // mapping ke string (🔥 ini kunci utama)
-$kelasNama = $data->kelas ?? '-';
+$data->load(['detail.siswa']);
+$kelasNama = optional($data->detail->first()?->siswa)->kelas ?? '-';
 $guruNama = optional($data->guru)->username ?? '-';
 $guruPiketNama = optional($data->guruPiket)->gurpi ?? '-';
     if (!empty($data->admin_action) && !empty($data->guru_action)) {
@@ -347,5 +398,12 @@ public function actionGuru(Request $request, $id)
 
     return back()->with('success','Aksi guru berhasil');
 }
-    
+public function printBukti($id)
+{
+    $data = Dispen::with(['detail.siswa','guru'])->findOrFail($id);
+
+    $detail = $data->detail;
+
+    return view('dispen.print_bukti', compact('data','detail'));
+}
 }

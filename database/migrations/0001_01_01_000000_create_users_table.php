@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('password');
 
             // ROLE USER
-            $table->enum('role', ['admin', 'guru'])->default('guru');
+            $table->enum('role', ['admin', 'guru', 'siswa'])->default('siswa');
 
             // FOTO USER (optional)
             $table->string('foto')->nullable();

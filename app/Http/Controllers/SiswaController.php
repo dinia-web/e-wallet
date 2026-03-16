@@ -9,19 +9,23 @@ class SiswaController extends Controller
 {
    public function index(Request $request)
 {
-    $limit = $request->get('limit', 5); // default 5
+$limit = $request->get('limit', 5);
     $search = $request->input('search');
 
-    $siswa = Siswa::when($search, function ($query, $search) {
-                    $query->where(function ($q) use ($search) {
-                        $q->where('nama', 'like', "%{$search}%")
-                          ->orWhere('kelas', 'like', "%{$search}%")
-                          ->orWhere('nis', 'like', "%{$search}%");
-                    });
-                })
-                ->orderBy('nis', 'asc')
-                ->paginate($limit)   // ✅ pakai $limit
-                ->withQueryString(); // supaya limit & search tidak hilang
+    $query = Siswa::when($search, function ($q) use ($search) {
+        $q->where(function ($sub) use ($search) {
+            $sub->where('nama', 'like', "%{$search}%")
+                ->orWhere('kelas', 'like', "%{$search}%")
+                ->orWhere('nis', 'like', "%{$search}%");
+        });
+    })->orderBy('nis','asc');
+
+    // jika sedang search → tampilkan semua
+    if($search){
+        $siswa = $query->get();
+    }else{
+        $siswa = $query->paginate($limit)->withQueryString();
+    }
 
     return view('siswa.index', compact('siswa'));
 }
@@ -73,4 +77,6 @@ class SiswaController extends Controller
         return redirect()->route('siswa.index')
             ->with('success', 'Siswa berhasil dihapus!');
     }
+    
+    
 }

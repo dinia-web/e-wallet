@@ -227,7 +227,7 @@
         }
         .welcome {
             background-color: #FCFCFC;
-            padding: 24px;
+            padding: 15px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             display: flex;
@@ -608,14 +608,17 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: nowrap; /* 🔥 jangan biarkan turun */
+    flex-wrap: nowrap;
     gap: 10px;
     width: 100%;
+    margin-top: 15px;
 }
 
-/* tulisan kiri */
+/* tulisan kiri (showing) */
 .gurpik-page .pagination > span {
     white-space: nowrap;
+    font-size: 13px;
+    color: #555;
 }
 
 /* bagian kanan */
@@ -630,7 +633,8 @@
     display: flex;
     gap: 5px;
     margin: 0;
-    padding: 12px;
+    padding: 0;
+    flex-wrap: nowrap;
 }
 
 /* Laravel nav */
@@ -639,12 +643,12 @@
     margin: 0;
 }
 
-
+/* item */
 .gurpik-page .pagination-controls li {
     list-style: none;
 }
 
-/* Style tombol */
+/* tombol */
 .gurpik-page .pagination-controls a,
 .gurpik-page .pagination-controls span {
     display: block;
@@ -653,55 +657,82 @@
     font-size: 13px;
     text-decoration: none;
     border: 1px solid #ddd;
+    background: #fff;
 }
 
-/* Hover */
+/* hover */
 .gurpik-page .pagination-controls a:hover {
     background: #f3f4f6;
 }
 
-/* Active */
+/* active */
 .gurpik-page .pagination-controls .active span {
     background: #2563eb;
     color: white;
     border-color: #2563eb;
 }
 
-/* ================= MOBILE FIX (TETAP SEJAJAR) ================= */
+/* ================= TABLET ================= */
 
-@media (max-width: 768px) {
+@media (max-width:992px){
 
-    .gurpik-page .pagination {
-        flex-direction: row;      /* 🔥 tetap horizontal */
-        align-items: center;
-        justify-content: space-between;
-        font-size: 11px;
-    }
-
-    .gurpik-page .pagination-controls {
-        width: auto;
-        justify-content: flex-end;
-    }
-
-    .gurpik-page .pagination-controls ul {
-        flex-wrap: nowrap;        /* 🔥 jangan turun */
+    .gurpik-page .pagination > span{
+        font-size:12px;
     }
 
     .gurpik-page .pagination-controls a,
-    .gurpik-page .pagination-controls span {
-        padding: 5px 5px;
-        font-size: 5px;
+    .gurpik-page .pagination-controls span{
+        padding:5px 8px;
+        font-size:12px;
     }
+
 }
 
-/* Extra kecil */
-@media (max-width: 480px) {
+/* ================= MOBILE ================= */
+
+@media (max-width:768px){
+
+    .gurpik-page .pagination{
+        gap:5px;
+    }
+
+    /* ringkas tulisan showing */
+    .gurpik-page .pagination > span{
+        font-size:11px;
+    }
+
+    /* hanya tampil prev, active, next */
+    .gurpik-page .pagination-controls li:not(.active):not(:first-child):not(:last-child){
+        display:none;
+    }
 
     .gurpik-page .pagination-controls a,
-    .gurpik-page .pagination-controls span {
-        padding: 3px 6px;
-        font-size: 11px;
+    .gurpik-page .pagination-controls span{
+        padding:4px 7px;
+        font-size:11px;
     }
+
+}
+
+/* ================= HP KECIL ================= */
+
+@media (max-width:480px){
+
+    .gurpik-page .pagination{
+        flex-direction:row;        /* 🔥 tetap samping */
+        align-items:flex-start;
+        gap:6px;
+    }
+
+    .gurpik-page .pagination > span{
+        font-size:10px;
+    }
+
+    .gurpik-page .pagination-controls{
+        width:100%;
+        justify-content:flex-end;
+    }
+
 }
         
 /* ===============================
@@ -773,22 +804,39 @@
     background: #f3f4f6;
     z-index: 2;
 }
-
-.gurpik-page tbody tr:hover {/* PAGINATION RESPONSIF */
-@media (max-width: 768px) {
-    .gurpik-page .pagination {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-    }
-
-    .gurpik-page .pagination-controls {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-    }
+/* SEARCH FLEX FIX */
+.gurpik-page .controls .search{
+    display:flex;
+    align-items:center;
+    gap:6px;
 }
-    background: #f9fafb;
+
+.gurpik-page .controls .search input{
+    flex:1;
+    min-width:0;
+}
+
+.gurpik-page .controls .search button{
+    white-space:nowrap;
+}
+@media (max-width:768px){
+
+    .gurpik-page .controls{
+        flex-direction:column;
+        align-items:stretch;
+        gap:10px;
+    }
+
+    .gurpik-page .controls .entries{
+        display:flex;
+        align-items:center;
+        gap:5px;
+    }
+
+    .gurpik-page .controls .search{
+        width:100%;
+    }
+
 }
 /* Tablet */
 @media (max-width: 992px) {
@@ -955,7 +1003,6 @@
             BUTTON AKSI (EDIT & HAPUS)
             ========================= */
             .btn-edit,
-            .btn-detail,
             .btn-delete {
                 display: inline-flex;
                 align-items: center;
@@ -975,9 +1022,29 @@
                 color: #fff;
             }
 
-            .btn-detail {
-                background-color: #3498db;
-                color: #fff;
+            .btn-detail{
+            display:inline-flex;
+            align-items:center;
+            gap:6px;
+
+            background:#3498db;
+            color:#fff;
+
+            padding:6px 12px;
+            border-radius:6px;
+
+            font-size:12px;
+            text-decoration:none;
+
+            margin-left:4px;
+            }
+
+            /* hover dimatikan */
+            .btn-detail:hover{
+            background:#3498db;
+            color:#fff;
+            box-shadow:none;
+            transform:none;
             }
 
             /* DELETE */
@@ -1793,4 +1860,364 @@ body.sidebar-open {
     .main-content {
         margin-left: 250px;
     }
+}
+.status-badge.izin{
+background:#ffc107;
+color:#000;
+}
+
+.status-badge.sakit{
+background:#dc3545;
+color:#fff;
+}
+.detail-card{
+background:#fff;
+border-radius:12px;
+padding:20px;
+box-shadow:0 2px 8px rgba(0,0,0,0.05);
+max-width:700px;
+}
+
+.section-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
+}
+
+.info-grid{
+display:grid;
+grid-template-columns:repeat(2, minmax(200px, 320px));
+gap:10px;
+}
+
+.info-box{
+background:#f6f7f9;
+padding:10px;
+border-radius:10px;
+}
+
+.info-box label{
+font-size:12px;
+color:#777;
+display:block;
+margin-bottom:3px;
+}
+
+.info-box p{
+margin:0;
+font-weight:500;
+font-size:13px;
+}
+
+.status-badge{
+background:#e0e7ff;
+color:#3b5bdb;
+padding:3px 8px;
+border-radius:6px;
+font-size:11px;
+}
+
+.file-box{
+margin-top:15px;
+}
+
+.file-preview img{
+max-width:250px;
+border-radius:8px;
+border:1px solid #ddd;
+margin-top:8px;
+}
+
+.btn-download{
+background:#2563eb;
+color:white;
+padding:6px 12px;
+border-radius:6px;
+font-size:12px;
+text-decoration:none;
+display:inline-block;
+margin-top:8px;
+}
+
+.btn-back{
+background:#e0e7ff;
+color:#3b5bdb;
+padding:6px 12px;
+border-radius:8px;
+font-size:12px;
+text-decoration:none;
+}
+.card.small {
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    color: #fff;
+}
+
+.card.blue { background: linear-gradient(135deg, #2563eb, #3b82f6); }
+.card.lightblue { background: linear-gradient(135deg, #60a5fa, #3b82f6); }
+.card.green { background: linear-gradient(135deg, #16a34a, #22c55e); }
+.card.yellow { background: linear-gradient(135deg, #facc15, #eab308);  }
+.card.orange { background: linear-gradient(135deg, #f97316, #fb923c); }
+.card.purple { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+}
+.card.small {
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.card.small:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+}
+.card.small h3 {
+    font-size: 14px;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+.card.small .info p {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+}
+.card.small .info i {
+    font-size: 18px;
+    opacity: 0.3;
+    margin-left: auto;
+}
+.card.small a {
+    font-size: 12px;
+    font-weight: 500;
+}
+.charts {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.chart-container {
+    flex: 1;
+    min-width: 320px;
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.chart-container h3 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+/* Chart titles */
+.charts h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Canvas chart */
+.charts canvas {
+    width: 100% !important; /* penuh lebar container */
+    max-width: 100%;
+    height: 300px !important; /* tinggi chart */
+    border-radius: 8px;
+    background-color: #fff;
+    padding: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* Responsive untuk layar kecil */
+@media (max-width: 768px) {
+    .charts {
+        padding: 15px;
+    }
+    .charts canvas {
+        height: 250px !important;
+    }
+}.charts {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin: 5px 25px 0 25px; /* jarak dari card */
+}
+
+.container{
+    padding:20px;
+    display:flex;
+    justify-content:center;
+}
+
+/* TITLE */
+
+.print-desc{
+    font-size:13px;
+    color:#666;
+    margin-bottom:15px;
+}
+
+/* CARD */
+
+.print-card{
+    width:100%;
+    max-width:380px; /* tetap kecil di laptop tapi fleksibel */
+    border-radius:8px;
+    overflow:hidden;
+    background:#fff;
+    box-shadow:0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* HEADER CARD */
+
+.print-card-header{
+    background:#4f6fbf;
+    color:white;
+    padding:12px;
+    font-size:15px;
+    font-weight:600;
+    text-align:center;
+}
+
+/* BODY */
+
+.print-card-body{
+    padding:15px;
+}
+
+/* FORM */
+
+.form-group{
+    margin-bottom:12px;
+}
+
+.form-group label{
+    font-size:13px;
+    margin-bottom:4px;
+    display:block;
+}
+
+.form-control{
+    width:100%;
+    padding:7px 10px;
+    font-size:13px;
+    border:1px solid #ccc;
+    border-radius:4px;
+}
+
+/* BUTTON */
+
+.print-button-area{
+    text-align:right;
+}
+
+.print-button{
+    background:#6c757d;
+    color:white;
+    border:none;
+    padding:7px 14px;
+    font-size:13px;
+    border-radius:4px;
+    cursor:pointer;
+}
+
+.print-button:hover{
+    background:#5a6268;
+}
+
+/* PAGE TITLE */
+
+.page-desc{
+    font-size:13px;
+    color:#666;
+    margin: 10px;
+}
+
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
+
+/* Tablet */
+@media (max-width:768px){
+
+.container{
+    padding:15px;
+}
+
+.print-card{
+    max-width:100%;
+}
+
+
+}
+
+/* Mobile */
+@media (max-width:480px){
+
+.container{
+    padding:10px;
+}
+
+.print-card-body{
+    padding:12px;
+}
+
+
+
+.print-desc{
+    font-size:12px;
+}
+
+.print-button-area{
+    text-align:center;
+}
+
+.print-button{
+    width:100%; /* tombol full di HP */
+}
+
+}
+/* ===============================
+BUTTON CETAK
+=============================== */
+
+.btn-print{
+display:inline-flex;
+align-items:center;
+gap:6px;
+
+background:#28a745;
+color:#fff;
+
+padding:6px 12px;
+border-radius:6px;
+
+font-size:12px;
+text-decoration:none;
+
+margin-left:4px;
+}
+
+/* hover dimatikan */
+.btn-print:hover{
+background:#28a745;
+color:#fff;
+box-shadow:none;
+transform:none;
+}
+
+.btn-print i{
+font-size:12px;
+}
+
+.btn-print:hover{
+background:#218838;
+transform:translateY(-1px);
+box-shadow:0 2px 6px rgba(0,0,0,0.15);
 }

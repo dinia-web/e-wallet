@@ -69,15 +69,15 @@
 
                             <!-- EDIT -->
                             <button class="btn-edit"
-                                onclick="openEditModalUser(
-                                    '{{ $user->id_user }}',
-                                    '{{ $user->username }}',
-                                    '{{ $user->email }}',
-                                    '{{ $user->role }}'
-                                )">
-                                <i class="fas fa-edit"></i> Edit
+                            onclick="openEditModalUser(
+                            '{{ $user->id_user }}',
+                            '{{ $user->username }}',
+                            '{{ $user->email }}',
+                            '{{ $user->role }}',
+                            '{{ $user->is_walikelas }}'
+                            )">
+                            <i class="fas fa-edit"></i> Edit
                             </button>
-
                             @if(auth()->id() != $user->id_user)
                             <form action="{{ route('users.destroy', $user->id_user) }}" 
                                   method="POST" 
@@ -147,13 +147,22 @@
         <input type="password" name="password_confirmation" required>
     </div>
 
-    <div class="form-group">
-        <label>Role</label>
-        <select name="role" required>
-            <option value="admin">Admin</option>
-            <option value="guru">Guru</option>
-        </select>
-    </div>
+   <div class="form-group">
+    <label>Role</label>
+    <select name="role" id="roleSelect" required>
+        <option value="">-- Pilih Role --</option>
+        <option value="admin">Admin</option>
+        <option value="guru">Guru</option>
+        <option value="siswa">Murid</option>
+    </select>
+</div>
+
+<div class="form-group" id="walikelasBox" style="display:none;">
+    <label>
+        <input type="checkbox" name="is_walikelas" value="1">
+        Jadikan Wali Kelas
+    </label>
+</div>
 
     <div class="modal-footer">
         <button type="submit" class="btn-save">Simpan</button>
@@ -192,13 +201,21 @@
                 <input type="password" name="password">
             </div>
 
-            <div class="form-group">
-                <label>Role</label>
-                <select name="role" id="editRole" required>
-                    <option value="admin">Admin</option>
-                    <option value="guru">Guru</option>
-                </select>
-            </div>
+           <div class="form-group">
+    <label>Role</label>
+    <select name="role" id="editRole" required>
+        <option value="admin">Admin</option>
+        <option value="guru">Guru</option>
+        <option value="siswa">Murid</option>
+    </select>
+</div>
+
+<div class="form-group" id="editWalikelasBox" style="display:none;">
+    <label>
+        <input type="checkbox" name="is_walikelas" id="editWalikelas" value="1">
+        Jadikan Wali Kelas
+    </label>
+</div>
 
             <div class="modal-footer">
                 <button type="submit" class="btn-save">Update</button>
@@ -208,55 +225,5 @@
 
     </div>
 </div>
-<script>
-document.addEventListener("DOMContentLoaded", function(){
-
-    const form = document.getElementById("formTambahUser");
-
-    form.addEventListener("submit", function(e){
-        e.preventDefault();
-
-        let formData = new FormData(form);
-
-        fetch("{{ route('users.store') }}", {
-            method: "POST",
-            headers: {
-                "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                "Accept": "application/json"
-            },
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-
-            let errorDiv = document.getElementById("errorMessage");
-            let errorText = document.getElementById("errorText");
-
-            if(data.status === false){
-
-                errorDiv.style.display = "block";
-                errorText.innerHTML = "";
-
-                Object.values(data.errors).forEach(function(error){
-                    errorText.innerHTML += "• " + error[0] + "<br>";
-                });
-
-            } else {
-
-                errorDiv.style.display = "none";
-                form.reset();
-                closeModalUser();
-                location.reload();
-            }
-
-        })
-        .catch(error => {
-            console.log("Fetch Error:", error);
-        });
-
-    });
-
-});
-</script>
 
 @include('layout.footer')

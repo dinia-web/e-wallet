@@ -11,12 +11,14 @@
     </div>
 
     <div class="card1">
-
         <div class="header">
             <h2>List Dispensasi</h2>
+
+            @if(auth()->user()->role == 'admin' || auth()->user()->role == 'siswa')
             <a href="{{ url('/auth/dispen') }}" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Tambah Data
+                <i class="fas fa-plus"></i> Ajukan dispen
             </a>
+            @endif
         </div>
 
         <!-- FILTER -->
@@ -67,9 +69,13 @@
                                 ? $dispen->firstItem() + $i 
                                 : $loop->iteration }}
                         </td>
-                        <td>{{ $d->nis }}</td>
-                        <td>{{ $d->nama }}</td>
-                        <td>{{ $d->kelas ?? '-' }}</td>
+                    @php
+                        $firstDetail = $d->detail->first();
+                    @endphp
+
+                    <td>{{ $firstDetail->nis ?? '-' }}</td>
+                    <td>{{ $firstDetail->nama ?? '-' }}</td>
+                    <td>{{ optional($firstDetail->siswa)->kelas ?? '-' }}</td>
                         <td>{{ $d->guru->username ?? '-' }}</td>
 
                             <td>
@@ -82,17 +88,34 @@
                         </span>
                         </td>
 
-                        <td>
-                            <a href="{{ route('dispen.show', $d->id_dispen) }}" class="btn-detail">
-                                <i class="fas fa-eye"></i> Detail
-                            </a>
-                            <form action="{{ route('dispen.destroy', $d->id_dispen) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn-delete" onclick="return confirm('Yakin hapus?')">
-                                    <i class="fas fa-trash"></i> Hapus
-                                </button>
-                            </form>
+                     <td>
+
+                        <!-- Detail -->
+                        <a href="{{ route('dispen.show', $d->id_dispen) . '?' . http_build_query(request()->only('search','limit','all')) }}" 
+                        class="btn-detail">
+                            <i class="fas fa-eye"></i> Detail
+                        </a>
+
+                        <!-- CETAK BUKTI (khusus siswa jika sudah diproses) -->
+                        @if(auth()->user()->role == 'siswa' && ($d->status == 'disetujui' || $d->status == 'ditolak'))
+                       <a href="{{ route('dispen.print', $d->id_dispen) }}" 
+                        target="_blank"
+                        class="btn-print">
+                        <i class="fas fa-print"></i> Cetak Bukti
+                        </a>
+                        @endif
+
+                        <!-- Hapus -->
+                        @if(auth()->user()->role == 'admin' || auth()->user()->role == 'guru')
+                        <form action="{{ route('dispen.destroy', $d->id_dispen) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn-delete" onclick="return confirm('Yakin hapus?')">
+                        <i class="fas fa-trash"></i> Hapus
+                        </button>
+                        </form>
+                        @endif
+
                         </td>
                     </tr>
                     @empty

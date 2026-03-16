@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -17,6 +16,7 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $request->validate([
+            'nis' => 'nullable|exists:siswa,nis|unique:users,nis',
             'username' => 'required|string|max:255|unique:users,username',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
@@ -24,6 +24,7 @@ class RegisterController extends Controller
         ]);
 
         User::create([
+            'nis' => $request->role == 'siswa' ? $request->nis : null,
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),

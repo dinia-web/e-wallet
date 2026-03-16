@@ -3,16 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Siswa;
+
 class Dispen extends Model
 {
     protected $table = 'dispen';
     protected $primaryKey = 'id_dispen';
 
     protected $fillable = [
-        'nis',
-        'nama',
-        'kelas',
+        'tipe',
+        'kelas_kelompok',
         'email',
         'no_hp',
         'id_guru',
@@ -26,15 +25,11 @@ class Dispen extends Model
         'rejection_reason'
     ];
 
-    // 🔹 Relasi ke tabel kelas
-    public function kelasRel()
+    // 🔹 Relasi ke detail siswa
+    public function detail()
     {
-        return $this->belongsTo(Siswa::class, 'kelas', 'nis');
+        return $this->hasMany(DispenDetail::class, 'id_dispen', 'id_dispen');
     }
-    public function siswa()
-{
-    return $this->belongsTo(Siswa::class, 'nis', 'nis');
-}
 
     // 🔹 Guru yang diajukan
     public function guru()
@@ -59,9 +54,4 @@ class Dispen extends Model
     {
         return $this->belongsTo(Gurpik::class, 'gurpi', 'id_guru');
     }
-    public function detail()
-{
-    return $this->hasMany(DispenDetail::class, 'id_dispen', 'id_dispen');
-}
-
 }

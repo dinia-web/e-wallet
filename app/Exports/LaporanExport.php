@@ -28,29 +28,36 @@ class LaporanExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
     }
 
 public function collection()
-    {
-        $query = Dispen::with(['siswa', 'guru', 'guruPiket', 'detail']) // load relasi
-            ->whereBetween('created_at', [
-                Carbon::parse($this->tanggal_awal)->startOfDay(),
-                Carbon::parse($this->tanggal_akhir)->endOfDay()
-            ])
-            ->whereIn('status', ['disetujui','ditolak']);
+{
+    $query = Dispen::with([
+        'guru',
+        'guruPiket',
+        'detail.siswa' // 🔥 ambil siswa lewat detail
+    ])
+    ->whereBetween('created_at', [
+        Carbon::parse($this->tanggal_awal)->startOfDay(),
+        Carbon::parse($this->tanggal_akhir)->endOfDay()
+    ])
+    ->whereIn('status', ['disetujui','ditolak']);
 
-        if ($this->user->role == 'guru') {
-            $query->where('id_guru', $this->user->id_user);
-        }
+    if ($this->user->role == 'guru') {
+        $query->where('id_guru', $this->user->id_user);
+    }
 
-        $result = collect();
-        $no = 1;
+    $result = collect();
+    $no = 1;
 
-        foreach ($query->orderBy('id_dispen', 'asc')->get() as $row) {
+    foreach ($query->orderBy('id_dispen', 'asc')->get() as $row) {
 
-            // 🔥 SISWA UTAMA
+        foreach ($row->detail as $index => $d) {
+
             $result->push([
                 $no++,
-                $row->nis,
-                $row->nama,
-                $row->siswa->kelas ?? '-',
+                $d->nis,
+                $index == 0 
+                    ? $d->nama 
+                    : $d->nama . ' (Tambahan)',
+                $d->siswa->kelas ?? '-',
                 $row->email,
                 $row->no_hp,
                 Carbon::parse($row->created_at)->format('d-m-Y H:i'),
@@ -59,27 +66,11 @@ public function collection()
                 $row->alasan,
                 $row->status
             ]);
-
-            // 🔥 SISWA TAMBAHAN
-            foreach ($row->detail as $d) {
-                $result->push([
-                    $no++,
-                    $d->nis,
-                    $d->nama . ' (Tambahan)',
-                    $row->siswa->kelas ?? '-', 
-                    $row->email,
-                    $row->no_hp,
-                    Carbon::parse($row->created_at)->format('d-m-Y H:i'),
-                    $row->guru->username ?? '-',
-                    $row->guruPiket->gurpi ?? '-',
-                    $row->alasan,
-                    $row->status
-                ]);
-            }
         }
-
-        return $result;
     }
+
+    return $result;
+}
 
     public function headings(): array
     {
