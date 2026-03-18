@@ -49,8 +49,7 @@ Tanggal Cetak : {{ date('d-m-Y') }}
 <th>No</th>
 <th>NIS</th>
 <th>Nama Lengkap</th>
-<th>Kelas</th>
-<th>Guru</th>
+<th>Wali Kelas</th>
 <th>Tanggal</th>
 <th>Status</th>
 <th>Keterangan</th>
@@ -67,8 +66,6 @@ Tanggal Cetak : {{ date('d-m-Y') }}
 <td>{{ $p->nis }}</td>
 
 <td>{{ $p->siswa->nama ?? '-' }}</td>
-
-<td>{{ $p->siswa->kelas ?? '-' }}</td>
 
 <td>{{ $p->guru->username ?? '-' }}</td>
 

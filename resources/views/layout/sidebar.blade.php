@@ -50,10 +50,11 @@
             <i class="fas fa-chevron-down arrow"></i>
         </div>
         <div id="submenu-dispen" class="submenu {{ request()->is('dispen*') | request()->is('laporan') ? 'show' : '' }}">
-            <a class="{{ request()->is('dispen') ? 'active' : '' }}" href="{{ url('/dispen') }}">
+            <a class="{{ request()->is('dispen*') ? 'active' : '' }}" href="{{ url('/dispen') }}">
                 <i class="fas fa-list"></i>
                 <span>Daftar Dispensasi</span>
             </a>
+            
             <a class="{{ request()->is('laporan') ? 'active' : '' }}" href="{{ url('/laporan') }}">
                 <i class="fas fa-chart-bar"></i>
                 <span>Laporan Dispensasi</span>
@@ -67,7 +68,7 @@
             <i class="fas fa-chevron-down arrow"></i>
         </div>
         <div id="submenu-perizinan" class="submenu {{ request()->is('perizinan*')  ? 'show' : '' }}">
-            <a class="{{ request()->is('perizinan') ? 'active' : '' }}" href="{{ route('perizinan.index') }}">
+            <a class="{{ request()->is('perizinan*') ? 'active' : '' }}" href="{{ route('perizinan.index') }}">
                 <i class="fas fa-list"></i>
                 <span>Daftar Perizinan</span>
             </a>

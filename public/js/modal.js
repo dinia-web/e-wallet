@@ -520,3 +520,46 @@ if(editRole && editWalikelasBox){
         }
     });
 }
+
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    if (!('serviceWorker' in navigator)) return;
+
+    navigator.serviceWorker.ready.then(function(registration){
+
+        Notification.requestPermission().then(function(permission){
+
+            if(permission !== "granted") return;
+
+            registration.pushManager.getSubscription().then(function(existing){
+
+                if(existing){
+                    console.log("Sudah subscribe");
+                    return;
+                }
+
+                registration.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: window.vapidPublicKey
+                })
+                .then(function(subscription){
+
+                    fetch("/subscribe",{
+                        method:"POST",
+                        headers:{
+                            "Content-Type":"application/json",
+                            "X-CSRF-TOKEN":document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body:JSON.stringify(subscription)
+                    });
+
+                });
+
+            });
+
+        });
+
+    });
+
+});

@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Siswa;
+use NotificationChannels\WebPush\HasPushSubscriptions;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
-{
+{   use Notifiable;
+    use HasPushSubscriptions;
     protected $table = 'users'; 
     protected $primaryKey = 'id_user';
     public $timestamps = true;

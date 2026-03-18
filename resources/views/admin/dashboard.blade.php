@@ -61,7 +61,7 @@
                 <p>{{ $jumlah_guru }}</p>
                 <i class="fas fa-user-tie"></i>
             </div>
-            <a href="">Selengkapnya</a>
+            <a href="users">Selengkapnya</a>
         </div>
 
         <div class="card small orange">

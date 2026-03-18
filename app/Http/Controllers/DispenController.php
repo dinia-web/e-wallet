@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\DispenStatusMail;
 use App\Models\DispenDetail;
 use App\Models\Siswa;
+use App\Models\User;
+use App\Notifications\DispensasiPushNotif;
 
 class DispenController extends Controller
 {
@@ -175,17 +177,53 @@ $dispen = Dispen::create([
         }
     }
 }
+
+// ==========================
+// NOTIF DISPENSASI BARU
+// ==========================
+
+// admin
+$admins = User::where('role','admin')->get();
+
+foreach($admins as $admin){
+    $admin->notify(new DispensasiPushNotif(
+        'Dispensasi Baru',
+        'Ada dispensasi baru yang perlu diproses',
+        url('/dispen')
+    ));
+}
+
+// guru pengajar
+$guru = User::where('id_user',$request->id_guru)->first();
+
+if($guru){
+    $guru->notify(new DispensasiPushNotif(
+        'Permintaan Dispensasi',
+        'Ada dispensasi dari siswa yang menunggu persetujuan',
+        url('/dispen')
+    ));
+}
     return redirect('/auth/dispen')
         ->with('success','Data berhasil dikirim');
 }
 
-public function show($id)
-{
+public function show(Request $request, $id){
     $data = Dispen::with(['guru','detail.siswa','guruPiket'])
         ->findOrFail($id);
 
     $detail = $data->detail;
     $gurpik = DB::table('gurpik')->get();
+
+// wali kelas
+$guru = User::where('id_user',$request->id_guru)->first();
+
+if($guru){
+    $guru->notify(new DispensasiPushNotif(
+        'Perizinan Siswa',
+        'Ada perizinan dari siswa kelas anda',
+        url('/perizinan')
+    ));
+}
 
     return view('dispen.detail', compact('data','gurpik','detail'));
 }
@@ -236,6 +274,31 @@ $guruPiketNama = optional($data->guruPiket)->gurpi ?? '-';
         }
 
         $data->save();
+        // ==========================
+        // NOTIF KE SISWA (FINAL)
+        // ==========================
+
+        $detail = DispenDetail::where('id_dispen',$data->id_dispen)->get();
+
+        foreach($detail as $d){
+
+            $siswaUser = User::where('nis',$d->nis)->first();
+
+            if($siswaUser){
+
+                $statusText = $data->status == 'disetujui'
+                    ? 'Dispensasi anda telah disetujui'
+                    : 'Dispensasi anda ditolak';
+
+                $siswaUser->notify(new DispensasiPushNotif(
+                    'Status Dispensasi',
+                    $statusText,
+                    url('/siswa/dispen')
+                ));
+
+            }
+
+        }
 
         // =========================
         // AMBIL DETAIL TAMBAHAN
@@ -369,11 +432,26 @@ if ($data->admin_action === 'tolak') {
     $data->save();
     $this->updateStatus($data);
 
+    // ==========================
+    // NOTIF KE GURU
+    // ==========================
+
+    $guru = User::where('id_user',$data->id_guru)->first();
+
+    if($guru){
+        $guru->notify(new DispensasiPushNotif(
+            'Persetujuan Dispensasi',
+            'Admin telah memproses dispensasi, menunggu persetujuan anda',
+            url('/dispen')
+        ));
+    }
+
     return back()->with('success','Aksi admin berhasil');
 }
 
 public function actionGuru(Request $request, $id)
 {
+    
     $data = Dispen::findOrFail($id);
 
     // 🚫 CEK SUDAH PERNAH AKSI
@@ -395,6 +473,19 @@ public function actionGuru(Request $request, $id)
 
     $data->save();
     $this->updateStatus($data);
+    // ==========================
+    // NOTIF KE ADMIN
+    // ==========================
+
+    $admins = User::where('role','admin')->get();
+
+    foreach($admins as $admin){
+        $admin->notify(new DispensasiPushNotif(
+            'Dispensasi Diproses Guru',
+            'Guru telah memproses dispensasi',
+            url('/dispen')
+        ));
+}
 
     return back()->with('success','Aksi guru berhasil');
 }

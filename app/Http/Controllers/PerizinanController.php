@@ -7,6 +7,7 @@ use App\Models\Perizinan;
 use App\Models\User; 
 use App\Models\Siswa;
  use Carbon\Carbon;
+ use App\Notifications\DispensasiPushNotif;
 
 class PerizinanController extends Controller
 {
@@ -84,14 +85,39 @@ public function create()
     // =========================
     public function store(Request $request)
     {
-        $request->validate([
-            'nis' => 'required|exists:siswa,nis',
-            'jenis' => 'required|in:sakit,izin,terlambat',
-            'keterangan' => 'required',
-            'id_guru' => 'required|exists:users,id_user',
-            'file' => 'nullable|file|mimes:jpg,png,pdf|max:2048'
-        ]);
+        $perizinan = Perizinan::create([
+        'nis' => $request->nis,
+        'jenis' => $request->jenis,
+        'keterangan' => $request->keterangan,
+        'id_guru' => $request->id_guru,
+        'file' => $fileName
+    ]);
 
+    // ==========================
+    // NOTIF PERIZINAN BARU
+    // ==========================
+
+    // Admin
+    $admins = User::where('role','admin')->get();
+
+    foreach($admins as $admin){
+        $admin->notify(new DispensasiPushNotif(
+            'Perizinan Baru',
+            'Ada perizinan baru dari siswa',
+            url('/perizinan')
+        ));
+    }
+
+// Wali Kelas
+$guru = User::find($request->id_guru);
+
+if($guru){
+    $guru->notify(new DispensasiPushNotif(
+        'Perizinan Siswa',
+        'Ada perizinan dari siswa kelas anda',
+        url('/perizinan')
+    ));
+}
         $fileName = null;
 
         if($request->hasFile('file')){

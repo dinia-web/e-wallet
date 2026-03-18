@@ -12,6 +12,7 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\PerizinanController;
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Public Routes
@@ -56,7 +57,17 @@ Route::get('/get-siswa-kelas/{kelas}', function ($kelas) {
 */
 
 Route::middleware('auth')->group(function () {
+    Route::post('/subscribe', function(Request $request){
 
+    $user = auth()->user();
+
+    $user->updatePushSubscription(
+        $request->endpoint,
+        $request->keys['p256dh'],
+        $request->keys['auth']
+    );
+
+});
     // Dashboard umum
     Route::get('/dashboard', [DashboardController::class, 'index']);
 
